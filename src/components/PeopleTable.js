@@ -1,6 +1,7 @@
 import React from 'react';
 import People from './People';
 
+export const ITEMS_PER_PAGE = 10;
 
 class PeopleTable extends React.Component {
     render() {

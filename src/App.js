@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios'
 import PeopleTable from './components/PeopleTable';
+import PagesBar from './components/PagesBar';
 
 // const BASE_URL = 'http://localhost:3000/api/v1/people';
 const BASE_URL = 'https://swapi.dev/api/people'; //test
@@ -12,22 +13,25 @@ class App extends React.Component {
             people: [],
             page: 1,
             next: '',
-            previous: ''
+            previous: '',
+            count: 82 // Bad trick
         }
 
-        this.nextPage = this.nextPage.bind(this);
-        this.previousPage = this.previousPage.bind(this);
+        // this.nextPage = this.nextPage.bind(this);
+        // this.previousPage = this.previousPage.bind(this);
         this.setPeople = this.setPeople.bind(this);
+    }
 
-        this.setPeople(this.state.page)
+    componentDidMount() {
+        this.setPeople(this.state.page);
+        
     }
 
     render() {
         return (
             <div>
                 <PeopleTable people={this.state.people} />
-                <button type='button' id='previous' onClick={this.previousPage}>Previous</button>
-                <button type='button' id='next' onClick={this.nextPage}>NEXT</button>
+                <PagesBar onClick={this.setPeople} count={this.state.count}/>
             </div>
         )
     }
@@ -38,26 +42,27 @@ class App extends React.Component {
                 people: res.data.results,
                 next: res.data.next,
                 previous: res.data.previous,
+                count: res.data.count,
                 page
             });
         });
     }
 
-    nextPage() {
-        if (this.state.next) {
-            this.setPeople(this.state.page + 1)
-        } else {
-            alert('Це поки остання сторінка')
-        }
-    }
+    // nextPage() {
+    //     if (this.state.next) {
+    //         this.setPeople(this.state.page + 1)
+    //     } else {
+    //         alert('Це поки остання сторінка')
+    //     }
+    // }
 
-    previousPage() {
-        if (this.state.previous) {
-            this.setPeople(this.state.page - 1)
-        } else {
-            alert('Це і так перша сторінка. Далі нікуди')
-        }
-    }
+    // previousPage() {
+    //     if (this.state.previous) {
+    //         this.setPeople(this.state.page - 1)
+    //     } else {
+    //         alert('Це і так перша сторінка. Далі нікуди')
+    //     }
+    // }
 }
 
 export default App;
