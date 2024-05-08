@@ -19,9 +19,9 @@ class PeopleTable extends React.Component {
 
                     <tbody>
                         {this.props.people.map((p) => (
-                            <People key={p.url.match(/(\d+)$/)[1]} data={p} />
-
-                        ))}
+                            <People key={p.url.match(/(\d+)\/$/)[1]} data={p} />
+                        )
+                        )}
                     </tbody>
 
 
