@@ -3,7 +3,7 @@ import People from './People';
 
 export const ITEMS_PER_PAGE = 10;
 
-class PeopleTable extends React.Component {
+export default class PeopleTable extends React.Component {
     render() {
         return (
             <div className='container'>
@@ -44,5 +44,3 @@ class PeopleTable extends React.Component {
         )
     }
 }
-
-export default PeopleTable;

@@ -2,7 +2,7 @@ import React from 'react';
 import { ITEMS_PER_PAGE } from './PeopleTable';
 import PageButton from './PageButton';
 
-class PagesBar extends React.Component {
+export default class PagesBar extends React.Component {
     buttonsCount = Math.ceil(this.props.count / ITEMS_PER_PAGE);
     pages = Array.from({ length: this.buttonsCount }, (_, index) => index + 1);
 
@@ -21,8 +21,3 @@ class PagesBar extends React.Component {
         );
     }
 }
-
-
-
-export default PagesBar;
-

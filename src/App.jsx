@@ -7,7 +7,7 @@ import NavBar from './components/NavBar';
 // const BASE_URL = 'http://localhost:3000/api/v1/people';
 const BASE_URL = 'https://swapi.dev/api/people'; //test
 
-class App extends React.Component {
+export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -67,5 +67,3 @@ class App extends React.Component {
     //     }
     // }
 }
-
-export default App;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-class PageButton extends React.Component {
+export default class PageButton extends React.Component {
 
 
     selectPage(number) {
@@ -23,5 +23,3 @@ class PageButton extends React.Component {
         );
     }
 }
-
-export default PageButton;

@@ -1,8 +1,7 @@
-import axios from 'axios';
 import React from 'react';
 
 
-class People extends React.Component {
+export default class People extends React.Component {
     render() {
         return (
             <tr>
@@ -27,5 +26,3 @@ class People extends React.Component {
         )
     }
 }
-
-export default People;

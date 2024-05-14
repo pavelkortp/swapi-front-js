@@ -1,6 +1,6 @@
 import React from 'react';
 
-class CreatePeople extends React.Component{
+export default class CreatePeople extends React.Component{
 
     render(){
         return(
