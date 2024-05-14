@@ -12,14 +12,17 @@ class PagesBar extends React.Component {
 
     render() {
         return (
-            <div className="list-group list-group-horizontal">
+            <div className="btn-group me-2" role='group'>
                 {this.pages.map((n) => (
                     <PageButton onClick={this.props.onClick} key={n} value={n} />
                 ))}
             </div>
+
         );
     }
 }
+
+
 
 export default PagesBar;
 

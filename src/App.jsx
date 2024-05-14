@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios'
 import PeopleTable from './components/PeopleTable';
 import PagesBar from './components/PagesBar';
+import NavBar from './components/NavBar';
 
 // const BASE_URL = 'http://localhost:3000/api/v1/people';
 const BASE_URL = 'https://swapi.dev/api/people'; //test
@@ -24,15 +25,17 @@ class App extends React.Component {
 
     componentDidMount() {
         this.setPeople(this.state.page);
-        
     }
 
     render() {
         return (
-            <div>
-                <PeopleTable people={this.state.people} />
-                <PagesBar onClick={this.setPeople} count={this.state.count}/>
-            </div>
+            <>
+                <NavBar />
+                <div className='container'>
+                    <PeopleTable people={this.state.people} />
+                    <PagesBar onClick={this.setPeople} count={this.state.count} />
+                </div>
+            </>
         )
     }
 
