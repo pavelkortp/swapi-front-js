@@ -1,45 +1,76 @@
 import React from 'react';
 
-
+//TODO: Fix GPT code
 export default class EntityRow extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            processedData: {}
+        };
+    }
 
-    getData() {
-        return Object
-            .keys(this.props.data)
-            .map((key) => {
-                const f = this.props.data[key]
-                if (Array.isArray(f))
-                    return (<td>{f.join('\n')}</td>);
-                else if (key === 'url')
-                    return (<td><a href={f}>URL</a></td>)
-                return (<td>{this.props.data[key]}</td>);
-            });
+    componentDidMount() {
+        this.processData();
+    }
+
+    async processData() {
+        const processedData = {};
+        for (const key of Object.keys(this.props.data)) {
+            const f = this.props.data[key];
+            if (Array.isArray(f)) {
+                const processedArray = await this.processArray(f);
+                processedData[key] = processedArray;
+            } else if (key === 'url') {
+                processedData[key] = <td key={key}><a href={f}>URL</a></td>;
+            } else if (key === 'created' || key === 'edited') {
+                processedData[key] = this.processDate(f);
+            } else {
+                processedData[key] = <td key={key}>{this.props.data[key]}</td>;
+            }
+        }
+        this.setState({ processedData });
+    }
+
+    async processArray(arr) {
+        const processedArray = await Promise.all(arr.map(async (el, index) => {
+            const name = await this.processLink(el);
+            return (<li key={index}><a rel='noreferrer' href={el}>{name}</a></li>);
+        }));
+        return (
+            <td>
+                <ul>
+                    {processedArray}
+                </ul>
+            </td>
+        );
+    }
+
+    async processLink(link) {
+        const response = await fetch(link);
+        const obj = await response.json();
+
+        return obj.name ? obj.name : obj.title;
+    }
+
+    processDate(dateString) {
+        const date = new Date(dateString);
+
+        const day = String(date.getUTCDate()).padStart(2, '0');
+        const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are 0-based
+        const year = date.getUTCFullYear();
+
+        const hours = String(date.getUTCHours()).padStart(2, '0');
+        const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+
+        return (<td key={dateString}>{`${hours}:${minutes} ${day}.${month}.${year}`}</td>);
     }
 
     render() {
         return (
             <tr>
                 <th scope="row">{this.props.data.url.match(/(\d+)\/$/)[1]}</th>
-                {this.getData()}
+                {Object.values(this.state.processedData)}
             </tr>
         );
     }
 }
-
-//<th scope="row">{this.props.data.url.match(/(\d+)\/$/)[1]}</th>
-//                <td>{this.props.data.name}</td>
-//                <td>{this.props.data.height}</td>
-//                <td>{this.props.data.mass}</td>
-//                <td>{this.props.data.hair_color}</td>
-//                <td>{this.props.data.skin_color}</td>
-//                <td>{this.props.data.eye_color}</td>
-//                <td>{this.props.data.birth_year}</td>
-//                <td>{this.props.data.gender}</td>
-//                <td><a href={this.props.data.homeworld}>Homeworld</a></td>
-//                <td>{this.props.data.films.join('\n')}</td>
-//                <td>{this.props.data.species.join('\n')}</td>
-//                <td>{this.props.data.vehicles.join('\n')}</td>
-//                <td>{this.props.data.starships.join('\n')}</td>
-//                <td>{new Date(this.props.data.created).getFullYear()}</td>
-//                <td>{new Date(this.props.data.edited).getFullYear()}</td>
-//                <td><a href={this.props.data.url}>URL</a></td>

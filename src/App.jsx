@@ -36,7 +36,6 @@ export default class App extends React.Component {
         if (count === 0) {
             return <div>Loading...</div>;
         }
-        console.log(count);
         return (
             <>
                 <NavBar onEntity={this.setEntity} />

@@ -9,8 +9,7 @@ export default class NavBar extends React.Component {
 
     setEntity(event) {
         event.preventDefault();
-        const entity = event.target.text.toLowerCase();
-        console.log(entity);
+        const entity = event.target.textContent.toLowerCase();
         this.props.onEntity(`https://swapi.dev/api/${entity}`)
     }
 
@@ -25,9 +24,6 @@ export default class NavBar extends React.Component {
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                             <li className="nav-item">
-                                <a className="nav-link active" aria-current="page" href="/">Home</a>
-                            </li>
-                            <li className="nav-item">
                                 <a className="nav-link" rel='noreferrer' target='_blank' href="http://localhost:3000/documentation">Documentation</a>
                             </li>
                             <li className="nav-item dropdown">
@@ -35,14 +31,12 @@ export default class NavBar extends React.Component {
                                     Entities
                                 </a>
                                 <ul className="dropdown-menu">
-                                    <li><a className="dropdown-item" onClick={this.setEntity} href="#">People</a></li>
-                                    <li><a className="dropdown-item" onClick={this.setEntity} href="#">Films</a></li>
-                                    <li><a className="dropdown-item" onClick={this.setEntity} href="#">Species</a></li>
-                                    <li><a className="dropdown-item" onClick={this.setEntity} href="#">Planets</a></li>
-                                    <li><a className="dropdown-item" onClick={this.setEntity} href="#">Starships</a></li>
-                                    <li><a className="dropdown-item" onClick={this.setEntity} href="#">Vehicles</a></li>
-                                    <li><hr className="dropdown-divider" /></li>
-                                    <li><a className="dropdown-item" href="/">Something else here</a></li>
+                                    <li><button type='button' className="dropdown-item" onClick={this.setEntity}>People</button></li>
+                                    <li><button type='button' className="dropdown-item" onClick={this.setEntity}>Films</button></li>
+                                    <li><button type='button' className="dropdown-item" onClick={this.setEntity}>Species</button></li>
+                                    <li><button type='button' className="dropdown-item" onClick={this.setEntity}>Planets</button></li>
+                                    <li><button type='button' className="dropdown-item" onClick={this.setEntity}>Starships</button></li>
+                                    <li><button type='button' className="dropdown-item" onClick={this.setEntity}>Vehicles</button></li>
                                 </ul>
                             </li>
                         </ul>

@@ -7,6 +7,7 @@ export default class EntitiesTable extends React.Component {
     render() {
         return (
             <div className='container'>
+                <h1>{}</h1>
                 <table className='table table-light table-hover table-striped-columns'>
                     <thead className='table-dark'>
                         <tr>
@@ -24,11 +25,6 @@ export default class EntitiesTable extends React.Component {
         );
     }
 
-    /**
-     * 
-     * @param {Object} o 
-     * @returns 
-     */
     getScheme(o) {
         return (<>
             {Object.keys(o).map((key) => (<th key={key} scope="col">{key}</th>))}
