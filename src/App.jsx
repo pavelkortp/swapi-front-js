@@ -2,6 +2,7 @@ import React from 'react';
 import EntitiesTable from './components/EntitiesTable';
 import PagesBar from './components/PagesBar';
 import NavBar from './components/NavBar';
+import Footer from './components/Footer';
 
 // const BASE_URL = 'http://localhost:3000/api/v1/people';
 export const PEOPLE_URL = 'https://swapi.dev/api/people'; //test
@@ -43,6 +44,7 @@ export default class App extends React.Component {
                     <EntitiesTable items={this.state.items} />
                     <PagesBar onClick={this.setItems} count={count} />
                 </div>
+                <Footer />
             </>
         )
     }
