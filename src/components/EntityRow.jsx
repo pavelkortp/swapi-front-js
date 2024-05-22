@@ -1,6 +1,5 @@
 import React from 'react';
 
-//TODO: Fix GPT code
 export default class EntityRow extends React.Component {
     constructor(props) {
         super(props);
@@ -15,26 +14,38 @@ export default class EntityRow extends React.Component {
 
     async processData() {
         const processedData = {};
-        for (const key of Object.keys(this.props.data)) {
+        for (const key in this.props.data) {
             const f = this.props.data[key];
-            if (Array.isArray(f)) {
-                const processedArray = await this.processArray(f);
-                processedData[key] = processedArray;
-            } else if (key === 'url') {
-                processedData[key] = <td key={key}><a href={f}>URL</a></td>;
-            } else if (key === 'created' || key === 'edited') {
+            if (Array.isArray(f))
+                processedData[key] = this.processArrayFast(f);
+            else if (key === 'url' || key === 'homeworld')
+                processedData[key] = <td key={key + this.props.data.url} >{this.processLinkFast(f)}</td>;
+            else if (key === 'created' || key === 'edited')
                 processedData[key] = this.processDate(f);
-            } else {
-                processedData[key] = <td key={key}>{this.props.data[key]}</td>;
-            }
+            else
+                processedData[key] = <td key={key + this.props.data.url}>{this.props.data[key]}</td>;
+            
+            
         }
         this.setState({ processedData });
     }
 
+    processArrayFast(arr) {
+        return (
+            <td>
+                <ul>
+                    {arr.map((e, index) => {
+                        return <li key={e + index}>{this.processLinkFast(e)}</li>
+                    })}
+                </ul>
+            </td>
+        );
+    }
+
+
     async processArray(arr) {
-        const processedArray = await Promise.all(arr.map(async (el, index) => {
-            const name = await this.processLink(el);
-            return (<li key={index}><a rel='noreferrer' href={el}>{name}</a></li>);
+        const processedArray = await Promise.all(arr.map(async (el) => {
+            return <li>{await this.processLink(el)}</li>;
         }));
         return (
             <td>
@@ -48,8 +59,17 @@ export default class EntityRow extends React.Component {
     async processLink(link) {
         const response = await fetch(link);
         const obj = await response.json();
+        return (
+            <a rel='noreferrer' target='_blank' href={link}>
+                {obj.name ? obj.name : obj.title}
+            </a>
+        );
+    }
 
-        return obj.name ? obj.name : obj.title;
+    processLinkFast(link) {
+        const baseURL = 'https://swapi.dev/api/';
+        const name = (link+'').replace(baseURL, '');
+        return (<a rel='noreferrer' target='_blank' href={link}>{name}</a>);
     }
 
     processDate(dateString) {
@@ -69,7 +89,11 @@ export default class EntityRow extends React.Component {
         return (
             <tr>
                 <th scope="row">{this.props.data.url.match(/(\d+)\/$/)[1]}</th>
-                {Object.values(this.state.processedData)}
+                {Object.values(this.state.processedData).map((data, index) => (
+                    <React.Fragment key={index}>
+                        {data}
+                    </React.Fragment>
+                ))}
             </tr>
         );
     }
