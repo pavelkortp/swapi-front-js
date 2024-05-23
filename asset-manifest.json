@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/swapi-front-js/static/css/main.beb2e440.css",
+    "main.js": "/swapi-front-js/static/js/main.60886fde.js",
+    "index.html": "/swapi-front-js/index.html",
+    "main.beb2e440.css.map": "/swapi-front-js/static/css/main.beb2e440.css.map",
+    "main.60886fde.js.map": "/swapi-front-js/static/js/main.60886fde.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.beb2e440.css",
+    "static/js/main.60886fde.js"
+  ]
+}
