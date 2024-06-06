@@ -7,7 +7,7 @@ export const ITEMS_PER_PAGE = 10;
 export default class EntitiesTable extends React.Component {
     render() {
         return (
-            <>
+            <div className='container'>
                 <h2>{this.props.items[0].url.split('/')[4]} table</h2>
                 <div className='table-wrapper'>
                     <div className='container'>
@@ -26,7 +26,7 @@ export default class EntitiesTable extends React.Component {
                         </table>
                     </div>
                 </div>
-            </>
+            </div>
         );
     }
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { ITEMS_PER_PAGE } from './EntitiesTable';
 import PageButton from './PageButton';
+import '../styles/pagesBar.css'
 
 export default class PagesBar extends React.Component {
 
