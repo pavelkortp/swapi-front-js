@@ -3,10 +3,16 @@ import {Transition} from 'react-transition-group';
 import {IoCloseCircle} from "react-icons/io5";
 import '../styles/Modal.css';
 
+interface ModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    children: React.ReactNode;
+}
+
 /**
  * Modal window component
  */
-export default class Modal extends React.Component {
+export default class Modal extends React.Component<ModalProps> {
 
     render() {
         return (

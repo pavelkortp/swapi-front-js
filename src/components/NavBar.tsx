@@ -1,8 +1,13 @@
 import React from 'react';
+import {BASE_URL} from '../App';
 
-export default class NavBar extends React.Component {
+interface NavBarProps {
+    onEntity: (url: string) => void;
+}
 
-    constructor(props) {
+export default class NavBar extends React.Component<NavBarProps> {
+
+    constructor(props: NavBarProps) {
         super(props);
         this.state = {
             modalVisible: false
@@ -10,10 +15,10 @@ export default class NavBar extends React.Component {
         this.setEntity = this.setEntity.bind(this);
     }
 
-    setEntity(event) {
+    setEntity(event: any) {
         event.preventDefault();
-        const entity = event.target.textContent.toLowerCase();
-        this.props.onEntity(`https://swapi.dev/api/${entity}`)
+        const entity = event.target!.textContent.toLowerCase();
+        this.props.onEntity(`${BASE_URL}/${entity}`)
     }
 
 
@@ -30,7 +35,7 @@ export default class NavBar extends React.Component {
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                             <li className="nav-item">
-                                <a className="nav-link" rel='noreferrer' target='_blank'
+                                <a className="nav-link" rel="noreferrer" target="_blank"
                                    href="http://localhost:3000/documentation">Documentation</a>
                             </li>
                             <li className="nav-item dropdown">
@@ -40,31 +45,31 @@ export default class NavBar extends React.Component {
                                 </a>
                                 <ul className="dropdown-menu">
                                     <li>
-                                        <button type='button' className="dropdown-item"
+                                        <button type="button" className="dropdown-item"
                                                 onClick={this.setEntity}>People
                                         </button>
                                     </li>
                                     <li>
-                                        <button type='button' className="dropdown-item" onClick={this.setEntity}>Films
+                                        <button
+                                            type="button" className="dropdown-item" onClick={this.setEntity}>Films
                                         </button>
                                     </li>
                                     <li>
-                                        <button type='button' className="dropdown-item"
-                                                onClick={this.setEntity}>Species
+                                        <button type="button" className="dropdown-item" onClick={this.setEntity}>Species
                                         </button>
                                     </li>
                                     <li>
-                                        <button type='button' className="dropdown-item"
-                                                onClick={this.setEntity}>Planets
+                                        <button
+                                            type="button" className="dropdown-item" onClick={this.setEntity}>Planets
                                         </button>
                                     </li>
                                     <li>
-                                        <button type='button' className="dropdown-item"
+                                        <button type="button" className="dropdown-item"
                                                 onClick={this.setEntity}>Starships
                                         </button>
                                     </li>
                                     <li>
-                                        <button type='button' className="dropdown-item"
+                                        <button type="button" className="dropdown-item"
                                                 onClick={this.setEntity}>Vehicles
                                         </button>
                                     </li>

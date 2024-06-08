@@ -4,7 +4,11 @@ import '../styles/entityTable.css'
 
 export const ITEMS_PER_PAGE = 10;
 
-export default class EntitiesTable extends React.Component {
+interface EntitiesTableProps {
+    items: any[];
+}
+
+export default class EntitiesTable extends React.Component<EntitiesTableProps> {
     render() {
         return (
             <div className='container'>
@@ -30,7 +34,7 @@ export default class EntitiesTable extends React.Component {
         );
     }
 
-    getScheme(o) {
+    getScheme(o: Object) {
         return (<>
             {Object.keys(o).map((key) => (<th key={key} scope="col">{key}</th>))}
         </>);
