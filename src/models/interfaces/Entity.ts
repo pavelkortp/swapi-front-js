@@ -2,8 +2,8 @@
  *
  */
 export default interface Entity {
-    edited: Date;
-    created: Date;
+    edited: string;
+    created: string;
     url: string;
     images: string[];
 }

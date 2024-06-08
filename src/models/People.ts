@@ -13,14 +13,14 @@ export class People implements Entity{
         public eye_color: string,
         public birth_year: string,
         public gender: string,
-        public homeworld: number,
+        public homeworld: string,
         public images: string [],
         public films: string [],
         public species: string[],
         public vehicles: string[],
         public starships: string [],
-        public created: Date,
-        public edited: Date,
+        public created: string,
+        public edited: string,
         public url: string
     ) {}
 }

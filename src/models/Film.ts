@@ -14,8 +14,8 @@ export class Film implements Entity {
         public starships: string [],
         public vehicles: string [],
         public species: string[],
-        public created: Date,
-        public edited: Date,
+        public created: string,
+        public edited: string,
         public url: string
     ) {
     }

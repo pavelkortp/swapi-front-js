@@ -17,8 +17,8 @@ export class Starship implements Entity{
         public images: string [],
         public pilots: string [],
         public films: string[],
-        public created: Date,
-        public edited: Date,
+        public created: string,
+        public edited: string,
         public url: string
     ) {
     }

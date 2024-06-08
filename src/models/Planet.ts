@@ -14,8 +14,8 @@ export class Planet implements Entity{
         public images: string [],
         public residents: string [],
         public films: string[],
-        public created: Date,
-        public edited: Date,
+        public created: string,
+        public edited: string,
         public url: string
     ) {}
 }

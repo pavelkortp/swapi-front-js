@@ -1,6 +1,6 @@
 import Entity from './interfaces/Entity';
 
-export class Species implements Entity{
+export class Specie implements Entity{
     constructor(
         public name: string,
         public classification: string,
@@ -15,8 +15,8 @@ export class Species implements Entity{
         public images: string [],
         public people: string [],
         public films: string[],
-        public created: Date,
-        public edited: Date,
+        public created: string,
+        public edited: string,
         public url: string
     ) {
     }
