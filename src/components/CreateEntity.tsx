@@ -5,7 +5,11 @@ interface CreateEntityProps {
     isOpen: boolean;
     onCreate: (o: any) => void;
     onClose: () => void;
-    entity: any[]
+    schema: string[]
+}
+
+interface FormSchema {
+    [key: string]: string;
 }
 
 export default class CreateEntity extends React.Component<CreateEntityProps> {
@@ -13,43 +17,26 @@ export default class CreateEntity extends React.Component<CreateEntityProps> {
 
     constructor(props: CreateEntityProps) {
         super(props);
-        this.state = this.initializeState(props.entity[0]);
+        this.state = this.initializeState(props.schema);
         console.log(this.state);
         this.getFormSchema = this.getFormSchema.bind(this);
         this.createEntity = this.createEntity.bind(this);
 
     }
 
-    initializeState(entity: any) {
-        const initialState: any = {};
-        Object.keys(entity).forEach(key => {
-            if (!Array.isArray(entity[key]) &&
-                !entity[key].includes('http') &&
-                isNaN(new Date(entity[key]).getTime())) {
-                initialState[key] = '';
-            }
-        });
-        return initialState;
+    initializeState(schema: string[]): FormSchema {
+        return schema.reduce((result: FormSchema, current: string) => {
+            result[current] = '';
+            return result;
+        }, {});
     }
 
     createEntity() {
-        console.log(this.state);
         this.props.onCreate(this.state)
-        // this.myForm.reset()
     }
 
-    getFormSchema(entity: any) {
-        return Object
-            .keys(entity)
-            .filter((e) => {
-                if (Array.isArray(entity[e]))
-                    return false;
-                else if (entity[e].includes('http'))
-                    return false;
-                else if (!isNaN(new Date(entity[e]).getTime()))
-                    return false;
-                return true
-            })
+    getFormSchema(schema:string[]) {
+        return schema
             .map((el) => (
                 <div key={el} className="mb-3">
                     <input
@@ -73,8 +60,23 @@ export default class CreateEntity extends React.Component<CreateEntityProps> {
                 <form ref={(el) => {
                     this.myForm = el
                 }} id="create-record-form">
-                    {this.getFormSchema(this.props.entity[0])}
-                    <button key="create" className="btn btn-primary" type="button" onClick={this.createEntity}>CREATE
+                    {this.getFormSchema(this.props.schema)}
+                    <button
+                        key="create"
+                        className="btn btn-primary"
+                        type="button"
+                        onClick={this.createEntity}
+                    >
+                        CREATE
+                    </button>
+                    <br></br>
+                    <button
+                        key="reset"
+                        className="btn btn-secondary"
+                        type="button"
+                        onClick={() => this.myForm!.reset()}
+                    >
+                        Reset
                     </button>
                 </form>
             </Modal>

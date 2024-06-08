@@ -1,37 +1,31 @@
-import React from 'react';
-import {People} from '../models/People';
+import React, {ReactNode} from 'react';
 import {BASE_URL} from '../App';
-import any = jasmine.any;
+import Entity from '../models/interfaces/Entity';
+import {Entities} from '../models/Entities';
+
 
 interface EntityRowProps {
-    data: any;
+    data: Entity;
 }
 
 interface EntityRowState {
-    processedData:Data;
+    [key: string]: React.ReactNode;
 }
-
-interface Data {
-    [key: string]: string;
-}
-
 
 export default class EntityRow extends React.Component<EntityRowProps, EntityRowState> {
     constructor(props: EntityRowProps) {
         super(props);
-        this.state = {
-            processedData: {}
-        };
+        this.state = {};
     }
 
     componentDidMount() {
         this.processData();
     }
 
-    async processData() {
-        const processedData: any = {};
-        for (const key in this.props.data) {
-            const f = this.props.data[key];
+    processData() {
+        const processedData: EntityRowState = {};
+        Object.keys(this.props.data).forEach((key) => {
+            const f: string | string[] = this.props.data[key as keyof Entities];
             if (Array.isArray(f))
                 processedData[key] = this.processArrayFast(f);
             else if (key === 'url' || key === 'homeworld')
@@ -39,14 +33,13 @@ export default class EntityRow extends React.Component<EntityRowProps, EntityRow
             else if (key === 'created' || key === 'edited')
                 processedData[key] = this.processDate(f);
             else
-                processedData[key] = <td key={key + this.props.data.url}>{this.props.data[key]}</td>;
+                processedData[key] = <td key={key + this.props.data.url}>{this.props.data[key as keyof Entities]}</td>;
+        })
 
-
-        }
-        this.setState({processedData});
+        this.setState(processedData);
     }
 
-    processArrayFast(arr: any[]) {
+    processArrayFast(arr: string[]) {
         return (
             <td>
                 <ul>
@@ -59,28 +52,28 @@ export default class EntityRow extends React.Component<EntityRowProps, EntityRow
     }
 
 
-    async processArray(arr: []) {
-        const processedArray = await Promise.all(arr.map(async (el) => {
-            return <li>{await this.processLink(el)}</li>;
-        }));
-        return (
-            <td>
-                <ul>
-                    {processedArray}
-                </ul>
-            </td>
-        );
-    }
+    // async processArray(arr: []) {
+    //     const processedArray = await Promise.all(arr.map(async (el) => {
+    //         return <li>{await this.processLink(el)}</li>;
+    //     }));
+    //     return (
+    //         <td>
+    //             <ul>
+    //                 {processedArray}
+    //             </ul>
+    //         </td>
+    //     );
+    // }
 
-    async processLink(link: string) {
-        const response = await fetch(link);
-        const obj = await response.json();
-        return (
-            <a rel="noreferrer" target="_blank" href={link}>
-                {obj.name ? obj.name : obj.title}
-            </a>
-        );
-    }
+    // async processLink(link: string) {
+    //     const response = await fetch(link);
+    //     const obj = await response.json();
+    //     return (
+    //         <a rel="noreferrer" target="_blank" href={link}>
+    //             {obj.name ? obj.name : obj.title}
+    //         </a>
+    //     );
+    // }
 
     processLinkFast(link: string) {
         const name = (link + '').replace(BASE_URL, '');
@@ -103,8 +96,8 @@ export default class EntityRow extends React.Component<EntityRowProps, EntityRow
     render() {
         return (
             <tr>
-                <th scope="row">{this.props.data.url.match(/(\d+)\/$/)[1]}</th>
-                {Object.values(this.state.processedData).map((data:string, index) => (
+                <th scope="row">{this.props.data.url.match(/(\d+)\/$/)![1]}</th>
+                {Object.values(this.state).map((data: ReactNode, index) => (
                     <React.Fragment key={index}>
                         {data}
                     </React.Fragment>
