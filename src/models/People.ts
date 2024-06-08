@@ -1,7 +1,9 @@
+import Entity from './interfaces/Entity';
+
 /**
  *
  */
-export class People {
+export class People implements Entity{
     constructor(
         public name: string,
         public height: string,
@@ -12,10 +14,11 @@ export class People {
         public birth_year: string,
         public gender: string,
         public homeworld: number,
-        public films: [],
-        public species: [],
-        public vehicles: [],
-        public starships: [],
+        public images: string [],
+        public films: string [],
+        public species: string[],
+        public vehicles: string[],
+        public starships: string [],
         public created: Date,
         public edited: Date,
         public url: string
