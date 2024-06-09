@@ -9,19 +9,19 @@ interface CreateEntityProps {
 }
 
 interface FormSchema {
-    [key: string]: string;
+    [key: string]: any;
 }
 
-export default class CreateEntity extends React.Component<CreateEntityProps> {
+export default class CreateEntity extends React.Component<CreateEntityProps, FormSchema> {
     private myForm: HTMLFormElement | null | undefined;
+
 
     constructor(props: CreateEntityProps) {
         super(props);
-        this.state = this.initializeState(props.schema);
-        console.log(this.state);
+        this.state = this.initializeState(props.schema)
         this.getFormSchema = this.getFormSchema.bind(this);
         this.createEntity = this.createEntity.bind(this);
-
+        this.setData = this.setData.bind(this);
     }
 
     initializeState(schema: string[]): FormSchema {
@@ -31,26 +31,48 @@ export default class CreateEntity extends React.Component<CreateEntityProps> {
         }, {});
     }
 
-    createEntity() {
-        this.props.onCreate(this.state)
+    setData(name: string, value: any) {
+        this.setState({...this.state, [name]: value});
     }
 
-    getFormSchema(schema:string[]) {
+    createEntity() {
+        this.props.onCreate(this.state);
+        // this.formData = new FormData();
+    }
+
+    getFormSchema(schema: string[]) {
         return schema
             .map((el) => (
                 <div key={el} className="mb-3">
+                    {el === 'images' ?
+                        <label htmlFor="formFileMultiple" className="form-label">
+                            Upload image for this
+                        </label> :
+                        ''}
                     <input
-                        required
+                        required={true}
                         className="form-control"
-                        type="text"
+                        accept={el === 'images'? "image/*,.png,.jpg,.gif,.web":''}
+                        type={el === 'images' ? 'file' : 'text'}
+                        multiple={el === 'images'}
                         name={el}
-                        onChange={(event) => {
-                            this.setState({[el]: event.target.value})
-                        }}
+                        onChange={(event)=>this.handleOnChange(event, el)}
                         placeholder={el}
                     />
                 </div>
             ));
+    }
+
+    getFilesArr(fileList:FileList){
+        const res = []
+        for (let i = 0; i<fileList.length;i++ ){
+            res.push(fileList[i]);
+        }
+        return res
+    }
+
+    handleOnChange = (e: React.ChangeEvent<HTMLInputElement>, key:string) => {
+        this.setData(key, key === 'images' ? this.getFilesArr(e.target.files!) : e.target.value);
     }
 
     render() {

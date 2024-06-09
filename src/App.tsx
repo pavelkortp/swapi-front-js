@@ -6,8 +6,9 @@ import PagesBar from './components/PagesBar';
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 import CreateEntity from './components/CreateEntity';
-import Entity from './models/interfaces/Entity';
-import {SWAPIResponsePage} from './models/SWAPIResponse';
+import Entity from './interfaces/Entity';
+import {SWAPIResponsePage} from './interfaces/SWAPIResponse';
+import axios from 'axios';
 
 export const BASE_URL = 'http://localhost:3000/api/v1';
 const LOCAL_PEOPLE_URL = 'http://localhost:3000/api/v1/people';
@@ -30,7 +31,7 @@ export const TOAST_OPTIONS: ToastOptions = {
     transition: Bounce,
 }
 
-interface AppState extends SWAPIResponsePage{
+interface AppState extends SWAPIResponsePage {
     url: string;
     page: number;
     modalVisible: boolean;
@@ -99,9 +100,11 @@ export default class App extends React.Component<{}, AppState> {
     }
 
 
-    getSchema(e: Entity): string[]{
+    getSchema(e: Entity): string[] {
         const {url, edited, created, ...rest} = e;
-        return Object.keys(rest).filter((key: string) => !Array.isArray(rest[key as keyof typeof rest]))
+        const schema = Object.keys(rest).filter((key: string) => !Array.isArray(rest[key as keyof typeof rest]));
+        schema.push('images');
+        return schema
     }
 
 
@@ -117,31 +120,33 @@ export default class App extends React.Component<{}, AppState> {
 
     /**
      *
-     * @param entity
+     * @param data1
      */
-    createEntity(entity: Entity) {
-        const requestOptions = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(entity)
-        };
+    createEntity(data1: any) {
+        console.log(data1)
+        const formData = new FormData();
+        data1.images.forEach((e: any)=>{
+            formData.append('images', e);
+        })
 
+        Object.keys(data1).forEach(key => {
+            if(key!=='images'){
+                formData.append(key, data1[key]);
+            }
+        })
 
-        fetch(LOCAL_PEOPLE_URL, requestOptions)
-            .then((res) => res.json())
-            .then((json) => {
-                if (!json.error) {
+        axios.post(LOCAL_PEOPLE_URL, formData)
+            .then(response => {
+                if (!response.data?.error) {
                     toast.success('🦄 Created!', TOAST_OPTIONS);
-                    this.setItems(1)
+                    this.setItems(1);
                 } else {
-                    toast.error(`🦄 Error! ${json.message.join('\n')}`, TOAST_OPTIONS);
+                    toast.error(`🦄 Error! ${response.data.message}`, TOAST_OPTIONS);
                 }
             })
-            .catch(() => {
+            .catch(error => {
                 toast.error('🦄 There is some problem!', TOAST_OPTIONS);
-            })
+            });
     }
 
     /**
