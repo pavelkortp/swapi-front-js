@@ -1,7 +1,7 @@
 import React, {ReactNode} from 'react';
 import {BASE_URL} from '../App';
-import Entity from '../models/interfaces/Entity';
-import {Entities} from '../models/Entities';
+import Entity from '../interfaces/Entity';
+import {Entities} from '../interfaces/Entities';
 
 
 interface EntityRowProps {

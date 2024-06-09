@@ -1,7 +1,7 @@
 import React from 'react';
 import EntityRow from './EntityRow';
 import '../styles/entityTable.css'
-import Entity from '../models/interfaces/Entity';
+import Entity from '../interfaces/Entity';
 
 export const ITEMS_PER_PAGE = 10;
 
