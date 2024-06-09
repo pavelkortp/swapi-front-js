@@ -5,26 +5,24 @@ interface PageButtonProps {
     value: number;
 }
 
-
-export default class PageButton extends React.Component<PageButtonProps> {
-
-    selectPage(number: number) {
-        this.props.onClick(number);
+const PageButton: React.FC<PageButtonProps> = ({ onClick, value }) => {
+    const selectPage = (number: number) => {
+        onClick(number);
         const buttons = document.querySelectorAll('.btn-outline-primary');
         buttons.forEach(button => button.classList.remove('active'));
-        document.getElementById(number + '')!.classList.add('active');
-    }
+        document.getElementById(number.toString())?.classList.add('active');
+    };
 
-    render() {
-        return (
-            <button
-                id={this.props.value+''}
-                type="button"
-                onClick={() => this.selectPage(this.props.value)}
-                className={`btn btn-outline-primary ${this.props.value === 1 ? 'active' : ''}`}
-            >
-                {this.props.value}
-            </button>
-        );
-    }
-}
+    return (
+        <button
+            id={value.toString()}
+            type="button"
+            onClick={() => selectPage(value)}
+            className={`btn btn-outline-primary ${value === 1 ? 'active' : ''}`}
+        >
+            {value}
+        </button>
+    );
+};
+
+export default PageButton;
