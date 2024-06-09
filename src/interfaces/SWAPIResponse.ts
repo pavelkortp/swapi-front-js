@@ -1,4 +1,4 @@
-import Entity from './interfaces/Entity';
+import Entity from './Entity';
 
 /**
  * Api response on GET/?page=

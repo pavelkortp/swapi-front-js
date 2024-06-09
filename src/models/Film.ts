@@ -1,4 +1,4 @@
-import Entity from './interfaces/Entity';
+import Entity from '../interfaces/Entity';
 
 export class Film implements Entity {
     constructor(
