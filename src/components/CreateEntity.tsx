@@ -37,7 +37,6 @@ export default class CreateEntity extends React.Component<CreateEntityProps, For
 
     createEntity() {
         this.props.onCreate(this.state);
-        // this.formData = new FormData();
     }
 
     getFormSchema(schema: string[]) {
