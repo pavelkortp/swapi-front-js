@@ -1,5 +1,6 @@
 import React from 'react';
 import Modal from './Modal';
+import Form from './Form';
 
 interface CreateEntityProps {
     isOpen: boolean;
@@ -70,36 +71,24 @@ export default class CreateEntity extends React.Component<CreateEntityProps, For
         return res
     }
 
-    handleOnChange = (e: React.ChangeEvent<HTMLInputElement>, key:string) => {
-        this.setData(key, key === 'images' ? this.getFilesArr(e.target.files!) : e.target.value);
+    handleOnChange = (e: React.ChangeEvent<HTMLInputElement>, fieldName:string) => {
+        this.setData(fieldName, fieldName === 'images' ? this.getFilesArr(e.target.files!) : e.target.value);
     }
 
     render() {
         return (
             <Modal isOpen={this.props.isOpen} onClose={this.props.onClose}>
                 <h2>Create a New Record</h2>
-                <form ref={(el) => {
-                    this.myForm = el
-                }} id="create-record-form">
-                    {this.getFormSchema(this.props.schema)}
-                    <button
-                        key="create"
-                        className="btn btn-primary"
-                        type="button"
-                        onClick={this.createEntity}
-                    >
-                        CREATE
+                <Form fieldsNames={this.props.schema} handleOnChange={this.handleOnChange}/>
+                <div className="d-grid gap-2">
+                    <button className="btn btn-outline-success" type="button" key="create" onClick={()=>this.createEntity()}>
+                        <b>Create</b>
                     </button>
-                    <br></br>
-                    <button
-                        key="reset"
-                        className="btn btn-secondary"
-                        type="button"
-                        onClick={() => this.myForm!.reset()}
-                    >
-                        Reset
+                    <button className="btn btn-danger" type="button" key="reset"
+                            onClick={() => this.myForm!.reset()}>Reset
                     </button>
-                </form>
+                </div>
+
             </Modal>
         );
     }
