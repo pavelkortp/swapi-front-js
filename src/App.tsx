@@ -54,6 +54,7 @@ export default class App extends React.Component<{}, AppState> {
         this.createEntity = this.createEntity.bind(this);
         this.setModalVisible = this.setModalVisible.bind(this);
         this.setItems = this.setItems.bind(this);
+        this.deleteEntity = this.deleteEntity.bind(this);
     }
 
     componentDidMount() {
@@ -77,7 +78,11 @@ export default class App extends React.Component<{}, AppState> {
             <>
                 <NavBar onEntity={this.setEntity}/>
                 <main className="container">
-                    <EntitiesTable items={this.state.results}/>
+                    <EntitiesTable
+                        items={this.state.results}
+                        onDelete={this.deleteEntity}
+                        onEdit={this.editEntity}
+                    />
                     <br></br>
                     <PagesBar onClick={this.setItems} count={count}/>
                     <br></br>
@@ -88,7 +93,8 @@ export default class App extends React.Component<{}, AppState> {
                         Create entity
                     </button>
                     <CreateEntity
-                        schema={this.getSchema(this.state.results[0])} isOpen={this.state.modalVisible}
+                        schema={this.getSchema(this.state.results[0])}
+                        isOpen={this.state.modalVisible}
                         onClose={() => this.setModalVisible(false)}
                         onCreate={this.createEntity}
                     />
@@ -123,7 +129,6 @@ export default class App extends React.Component<{}, AppState> {
      * @param data1
      */
     createEntity(data1: any) {
-        console.log(data1)
         const formData = new FormData();
         data1.images.forEach((e: any)=>{
             formData.append('images', e);
@@ -147,6 +152,39 @@ export default class App extends React.Component<{}, AppState> {
             .catch(error => {
                 toast.error('🦄 There is some problem!', TOAST_OPTIONS);
             });
+    }
+
+
+    deleteEntity(id:string){
+        axios.delete(LOCAL_PEOPLE_URL+`/${id}`)
+            .then(response => {
+                if (!response.data?.error) {
+                    toast.success('🦄 Deleted!', TOAST_OPTIONS);
+                    this.setItems(1);
+                } else {
+                    toast.error(`🦄 Error! ${response.data.message}`, TOAST_OPTIONS);
+                }
+            })
+            .catch(error => {
+                toast.error('🦄 There is some problem!', TOAST_OPTIONS);
+            });
+
+        this.setItems(1);
+    }
+
+    editEntity(id:string){
+        // axios.patch(LOCAL_PEOPLE_URL+`/${id}`)
+        //     .then(response => {
+        //         if (!response.data?.error) {
+        //             toast.success('🦄 Deleted!', TOAST_OPTIONS);
+        //             this.setItems(1);
+        //         } else {
+        //             toast.error(`🦄 Error! ${response.data.message}`, TOAST_OPTIONS);
+        //         }
+        //     })
+        //     .catch(error => {
+        //         toast.error('🦄 There is some problem!', TOAST_OPTIONS);
+        //     });
     }
 
     /**
