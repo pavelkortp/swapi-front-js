@@ -1,5 +1,5 @@
 import React from 'react';
-import Input from './Input';
+import TextInput from './TextInput';
 
 interface FormProps{
     fieldsNames: string[],
@@ -10,7 +10,7 @@ const Form: React.FC<FormProps> = ({fieldsNames, handleOnChange}) => {
 
     const generateFields = () => {
         return fieldsNames
-            .map((name) => <Input
+            .map((name) => <TextInput
                 fieldName={name}
                 handleOnChange={handleOnChange}
                 key={name}

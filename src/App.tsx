@@ -9,6 +9,7 @@ import CreateEntity from './components/CreateEntity';
 import Entity from './interfaces/Entity';
 import {SWAPIResponsePage} from './interfaces/SWAPIResponse';
 import axios from 'axios';
+import TagInput from './components/TagInput';
 
 export const BASE_URL = 'http://localhost:3000/api/v1';
 const LOCAL_PEOPLE_URL = 'http://localhost:3000/api/v1/people';
