@@ -1,20 +1,17 @@
 import React from 'react';
-import TextInput from './TextInput';
+import {FormInputGenerator} from '../utils/FormInputGenerator';
 
-interface FormProps{
+interface FormProps {
     fieldsNames: string[],
-    handleOnChange: (event:React.ChangeEvent<HTMLInputElement>, fieldName:string)=>void
+    handleOnChangeTag: (e: React.ChangeEvent<HTMLInputElement>) => void,
+    handleOnChangeText: (e: React.ChangeEvent<HTMLInputElement>) => void,
+    handleOnChangeImages: (e: React.ChangeEvent<HTMLInputElement>) => void,
 }
 
-const Form: React.FC<FormProps> = ({fieldsNames, handleOnChange}) => {
+const Form: React.FC<FormProps> = ({fieldsNames, handleOnChangeTag, handleOnChangeImages, handleOnChangeText}) => {
 
     const generateFields = () => {
-        return fieldsNames
-            .map((name) => <TextInput
-                fieldName={name}
-                handleOnChange={handleOnChange}
-                key={name}
-            />);
+        return FormInputGenerator.generateInput(fieldsNames, handleOnChangeTag, handleOnChangeImages, handleOnChangeText);
     }
 
 

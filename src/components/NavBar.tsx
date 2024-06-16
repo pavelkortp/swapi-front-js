@@ -1,15 +1,15 @@
 import React from 'react';
-import {BASE_URL} from '../App';
+import {EntityType} from '../interfaces/EntityType';
 
 interface NavBarProps {
-    onEntity: (url: string) => void;
+    onEntity: (type: EntityType) => void;
 }
 
 const NavBar: React.FC<NavBarProps> = ({onEntity}) => {
     const setEntity = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
-        const entity = event.currentTarget.textContent!.toLowerCase();
-        onEntity(`${BASE_URL}/${entity}`);
+        const entity = event.currentTarget.textContent!.toLowerCase() as EntityType;
+        onEntity(entity);
     };
 
     return (

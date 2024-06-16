@@ -1,8 +1,8 @@
 import React from 'react';
-import {BASE_URL} from '../App';
 import {Entities} from '../interfaces/Entities';
 import Entity from '../interfaces/Entity';
 import {EntityRowState} from '../components/EntityRow';
+import {BASE_URL} from '../services/api.service';
 
 /**
  * Companion object to process table data
@@ -20,8 +20,8 @@ export class TableProcessor {
     }
 
     /**
-     *
-     * @param dateString
+     * Takes string date and return table's column
+     * @param dateString string date
      */
     public static processDateColumn(dateString: string): React.ReactNode {
         const date = new Date(dateString);

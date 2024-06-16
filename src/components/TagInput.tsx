@@ -24,6 +24,7 @@ const TagInput:React.FC<TagInputProps> = ({options, isMulti}) => {
     const [selectedOptions, setSelectedOptions] = useState([]);
 
     const handleChange = (selectedOptions:any) => {
+        console.log(selectedOptions)
         setSelectedOptions(selectedOptions || []);
     };
 

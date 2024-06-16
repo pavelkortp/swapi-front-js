@@ -32,8 +32,10 @@ export const EntityRow:React.FC<EntityRowProps> = ({entity, onDelete, onEdit})=>
     }, [entity]);
 
     if (!row) {
-        return <h1>loading</h1>
+        return <>loading</>
     }
+
+    const handleOnEdit = (id: string) => {}
 
     return (
         <tr>

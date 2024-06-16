@@ -6,12 +6,12 @@ export interface HTMLInputProps {
     handleOnChange: (e: React.ChangeEvent<HTMLInputElement>, fieldName: string) => void;
 }
 
-interface Option {
+export interface Tag {
     value: string;
     label: string;
 }
 
-export interface TagInputProps {
-    options: OptionsOrGroups<Option, GroupBase<Option>>
-    isMulti?: boolean
+export interface TagInputProps extends HTMLInputProps {
+    options: OptionsOrGroups<Tag, GroupBase<Tag>>;
+    isMulti?: boolean;
 }
