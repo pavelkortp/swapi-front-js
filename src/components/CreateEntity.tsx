@@ -1,54 +1,65 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Modal from './Modal';
 import Form from './Form';
 import Entity from '../interfaces/Entity';
-import {EntityType} from '../interfaces/EntityType';
+import {EntityParser} from '../utils/EntityParser';
 
 interface CreateEntityProps {
     isOpen: boolean;
     onCreate: (o: any) => void;
     onClose: () => void;
-    entityType: EntityType;
+    entity: Entity;
 }
 
-interface FormSchema {
-    [key: string]: any;
-}
+const CreateEntity: React.FC<CreateEntityProps> = ({isOpen, entity, onCreate, onClose}) => {
 
-const CreateEntity: React.FC<CreateEntityProps> = ({isOpen, entityType, onCreate, onClose}) => {
+    const [data, setData] = React.useState<FormData>(new FormData());
+    const [fieldsNames, setFieldsNames] = React.useState<string[]>(EntityParser.getEntityCreationFields(entity));
 
-    const [entity, setEntity] = React.useState<Entity>();
+    useEffect(() => {
+        setFieldsNames(EntityParser.getEntityCreationFields(entity))
+    }, [entity]);
 
-    const
-
-    const setData = (name: string, value: any) =>{
-        // this.setState({...this.state, [name]: value});
+    const handleCreate = () => {
+        onCreate(data);
+        setData(new FormData());
     }
 
-    // const initializeState = (schema: string[]): FormSchema => {
-    //     return schema.reduce((result: FormSchema, current: string) => {
-    //         result[current] = '';
-    //         return result;
-    //     }, {});
-    // }
-
-    const createEntity = ()=> {
-        // onCreate(this.state);
+    const handleOnChangeImages = (images: File[]) => {
+        images.forEach((e) => {
+            data.set('images', e);
+        })
     }
 
-
-
-    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
-        setData(fieldName, fieldName === 'images' ? getFilesArr(e.target.files!) : e.target.value);
+    const handleOnChangeText = (fieldName: string, value: string) => {
+        data.set(fieldName, value);
     }
 
-
-
+    const handleOnChangeTag = (fieldName: string, values: string[]) => {
+        values.forEach((e) => {
+            data.set(fieldName, e);
+        })
+    }
 
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
             <h2>Create a New Record</h2>
-            <Form fieldsNames={schema} />
+            <Form fieldsNames={fieldsNames}
+                  handleOnChangeTag={handleOnChangeTag}
+                  handleOnChangeText={handleOnChangeText}
+                  handleOnChangeImages={handleOnChangeImages}
+            />
+            <div className="d-grid gap-2">
+                <button className="btn btn-outline-success" type="button" key="create"
+                        onClick={() => handleCreate()}>
+                    <b>Create</b>
+                </button>
+                <button className="btn btn-danger" type="button" key="reset"
+                        onClick={() => {
+                            console.log('RESET')
+                        }}>Reset
+                </button>
+            </div>
         </Modal>
     );
 }

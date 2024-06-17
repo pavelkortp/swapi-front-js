@@ -76,9 +76,8 @@ export const deleteEntity = (type:EntityType, id: string): Promise<AxiosResponse
  * @param entityType
  * @param entity
  */
-export const createEntity =  (entityType:string, entity: CreateEntityDto): Promise<AxiosResponse> => {
-    const data = mapToFormData(entity);
-    return axios.post(`${BASE_URL}/${entityType}`, data)
+export const createEntity =  (entityType:string, entity: FormData): Promise<AxiosResponse> => {
+    return axios.post(`${BASE_URL}/${entityType}`, entity)
 }
 
 /**
@@ -87,9 +86,8 @@ export const createEntity =  (entityType:string, entity: CreateEntityDto): Promi
  * @param id
  * @param entity
  */
-export const updateEntity = (entityType:string, id: string, entity: CreateEntityDto): Promise<AxiosResponse> => {
-    const data = mapToFormData(entity);
-    return axios.patch(`${BASE_URL}/${entityType}/${id}`, data)
+export const updateEntity = (entityType:string, id: string, entity: FormData): Promise<AxiosResponse> => {
+    return axios.patch(`${BASE_URL}/${entityType}/${id}`, entity)
 }
 
 /**

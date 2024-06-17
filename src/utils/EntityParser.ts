@@ -35,25 +35,28 @@ export class EntityParser {
         }
     }
 
-    public static mapToUpdateEntityDTO(e: Entity) {
-        return Object
-            .entries(e)
-            .map(([key, value]) => {
-
-            })
-    }
+    // public static mapToUpdateEntityDTO(e: Entity) {
+    //     return Object
+    //         .entries(e)
+    //         .map(([key, value]) => {
+    //
+    //         })
+    // }
 
     public static getEntityCreationFields(entity: Entity): string[] {
+        const fields =  Object
+            .entries(entity)
+            .filter(([key, value]) => !Array.isArray(value))
+            .filter(([key, value]) => key !== 'url' && key !== 'created' && key !== 'edited')
+            .map(([key, value]) => key)
         return [
+            ...fields,
             'images',
-            ...Object
-                .entries(entity)
-                .filter(([key, value]) => !Array.isArray(value))
-                .map(([key, value]) => key)
         ];
     }
 
-    public static getFilesArr(fileList?: FileList): File[] {
+
+    public static getFilesArr(fileList: FileList | null): File[] {
         if (!fileList || !fileList.length) {
             return [];
         }

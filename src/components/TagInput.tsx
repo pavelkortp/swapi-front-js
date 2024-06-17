@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Select from 'react-select';
-import {TagInputProps} from '../interfaces/IProps';
+import Select, {MultiValue, SingleValue} from 'react-select';
+import {Tag, TagInputProps} from '../interfaces/IProps';
 
 
 
@@ -20,10 +20,12 @@ export const options = [
 ];
 
 
-const TagInput:React.FC<TagInputProps> = ({options, isMulti}) => {
+
+
+const TagInput:React.FC<TagInputProps> = ({options, isMulti, fieldName}) => {
     const [selectedOptions, setSelectedOptions] = useState([]);
 
-    const handleChange = (selectedOptions:any) => {
+    const handleChange = (selectedOptions: any) => {
         console.log(selectedOptions)
         setSelectedOptions(selectedOptions || []);
     };

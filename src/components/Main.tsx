@@ -6,7 +6,7 @@ import React, {useEffect, useState} from 'react';
 import Entity from '../interfaces/Entity';
 import {EntityType} from '../interfaces/EntityType';
 import {toast} from 'react-toastify';
-import {CreateEntityDto} from '../dto/create-entity.dto';
+import UpdateEntity from './UpdateEntity';
 
 interface MainProps {
     entityType: EntityType;
@@ -17,11 +17,8 @@ const Main: React.FC<MainProps> = ({entityType}) => {
     const [page, setPage] = useState<number>(1);
     const [entities, setEntities] = useState<Entity[]>([]);
     const [count, setCount] = useState<number>(0);
-    const [modalVisible, setModalVisible] = useState<boolean>(false);
-
-    useEffect(() => {
-        setItems(page);
-    }, [page]);
+    const [createFormVisible, setCreateFormVisible] = useState<boolean>(false);
+    const [updateFormVisible, setUpdateFormVisible] = useState<boolean>(false);
 
     const setItems = (page: number) => {
         getEntitiesPage(entityType, page)
@@ -30,6 +27,11 @@ const Main: React.FC<MainProps> = ({entityType}) => {
                 setCount(res.count);
             })
     }
+
+    useEffect(() => {
+        setItems(page);
+    }, [page, entityType]);
+
 
     const handleDelete = (id: string) => {
         deleteEntity(entityType, id)
@@ -46,7 +48,7 @@ const Main: React.FC<MainProps> = ({entityType}) => {
             });
     }
 
-    const handleCreate = (entity: CreateEntityDto) => {
+    const handleCreate = (entity: FormData) => {
         createEntity(entityType, entity)
             .then(r => {
                 if (!r.data?.error) {
@@ -61,19 +63,23 @@ const Main: React.FC<MainProps> = ({entityType}) => {
             });
     }
 
-    const handleUpdate= (id:string) => {
-        // updateEntity(entityType, id, entity)
-        //     .then(r => {
-        //         if (!r.data?.error) {
-        //             toast.success('🦄 Updated!', TOAST_OPTIONS);
-        //             setItems(page);
-        //         } else {
-        //             toast.error(`🦄 Error! ${r.data.message}`, TOAST_OPTIONS);
-        //         }
-        //     })
-        //     .catch(error => {
-        //         toast.error('🦄 There is some problem!', TOAST_OPTIONS);
-        //     });
+    const handleUpdate = (id: string, entity: FormData) => {
+        updateEntity(entityType, id, entity)
+            .then(r => {
+                if (!r.data?.error) {
+                    toast.success('🦄 Updated!', TOAST_OPTIONS);
+                    setItems(page);
+                } else {
+                    toast.error(`🦄 Error! ${r.data.message}`, TOAST_OPTIONS);
+                }
+            })
+            .catch(error => {
+                toast.error('🦄 There is some problem!', TOAST_OPTIONS);
+            });
+    }
+
+    if(!entities[0]){
+        return <h1>BEDA</h1>
     }
 
     return (
@@ -82,23 +88,33 @@ const Main: React.FC<MainProps> = ({entityType}) => {
                 items={entities}
                 entityType={entityType}
                 onDelete={handleDelete}
-                onEdit={handleUpdate}
+                onEdit={()=> setUpdateFormVisible(false)}
             />
             <br></br>
             <PagesBar onClick={setPage} count={count}/>
             <br></br>
             <button
                 className="btn btn-primary"
-                onClick={() => setModalVisible(true)}
+                onClick={() => setCreateFormVisible(true)}
             >
                 Create entity
             </button>
+
+
             <CreateEntity
-                entityType={entityType}
-                isOpen={modalVisible}
-                onClose={() => setModalVisible(false)}
+                isOpen={createFormVisible}
                 onCreate={handleCreate}
+                onClose={() => setCreateFormVisible(false)}
+                entity={entities[0]}
             />
+
+            <UpdateEntity
+                entity={entities[0]}
+                onUpdate={handleUpdate}
+                isOpen={updateFormVisible}
+                onClose={()=> setUpdateFormVisible(false)}
+            />
+
         </main>
     )
 }

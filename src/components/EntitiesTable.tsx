@@ -11,14 +11,17 @@ interface EntitiesTableProps {
     entityType: EntityType;
     items: Entity[];
     onDelete: (id: string) => void;
-    onEdit: (id: string) => void;
+    onEdit: () => void;
 }
 
-const EntitiesTable: React.FC<EntitiesTableProps> = ({entityType,items, onDelete, onEdit}) => {
+const EntitiesTable: React.FC<EntitiesTableProps> = ({entityType, items, onDelete, onEdit}) => {
 
-    const getEntityRows = () =>
-        items.map((item: Entity) =>
+
+    const getEntityRows = () =>{
+        return items.map((item: Entity) =>
             <EntityRow key={item.url} entity={item} onDelete={onDelete} onEdit={onEdit}/>)
+    }
+
 
     return (
         <div className="container">

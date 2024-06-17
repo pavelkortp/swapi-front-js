@@ -1,9 +1,17 @@
 import React from 'react';
-import {HTMLInputProps} from '../interfaces/IProps';
+import {EntityParser} from '../utils/EntityParser';
 
+interface ImageInputProps {
+    handleOnChange: (images:File[]) => void;
+    fieldName: string;
+}
 
+const ImageInput:React.FC<ImageInputProps> = ({fieldName, handleOnChange })=>{
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
+        const images = EntityParser.getFilesArr(e.target.files);
+        handleOnChange(images);
+    }
 
-const ImageInput:React.FC<HTMLInputProps> = ({fieldName, handleOnChange })=>{
     return ((
         <div key={fieldName} className="mb-3">
             <label htmlFor="formFileMultiple" className="form-label">
@@ -16,7 +24,7 @@ const ImageInput:React.FC<HTMLInputProps> = ({fieldName, handleOnChange })=>{
                 type='file'
                 multiple
                 name={fieldName}
-                onChange={(event) => handleOnChange(event, fieldName)}
+                onChange={onChange}
                 placeholder={fieldName}
             />
         </div>

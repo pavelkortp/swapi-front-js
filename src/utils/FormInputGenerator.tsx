@@ -5,11 +5,11 @@ import TextInput from '../components/TextInput';
 
 export class FormInputGenerator {
 
-    public static generateInput(
+    public static generateCreateInputs(
         fieldNames: string[],
-        handleOnChangeTag: (e: React.ChangeEvent<HTMLInputElement>) => void,
-        handleOnChangeText: (e: React.ChangeEvent<HTMLInputElement>) => void,
-        handleOnChangeImages: (e: React.ChangeEvent<HTMLInputElement>) => void
+        handleOnChangeTag: (fieldName:string, values:string[]) => void,
+        handleOnChangeText: (fieldName:string, value:string) => void,
+        handleOnChangeImages: (images: File[]) => void
     ) {
         return fieldNames.map((f) => {
             if (f === 'homeworld') {
@@ -35,4 +35,38 @@ export class FormInputGenerator {
             }
         })
     }
+
+    public static generateUpdateInputs(
+        fieldNames: string[],
+        handleOnChangeTag: (fieldName:string, values:string[]) => void,
+        handleOnChangeText: (fieldName:string, value:string) => void,
+        handleOnChangeImages: (images: File[]) => void
+    ){
+        return fieldNames.map((f) => {
+            if (f === 'homeworld') {
+                return <TagInput
+                    isMulti={false}
+                    key={f}
+                    options={options}
+                    fieldName={f}
+                    handleOnChange={handleOnChangeTag}
+                />
+            } else if (f === 'images') {
+                return <ImageInput
+                    key={f}
+                    fieldName={f}
+                    handleOnChange={handleOnChangeImages}
+                />
+            } else {
+                return <TextInput
+                    key={f}
+                    fieldName={f}
+                    handleOnChange={handleOnChangeText}
+                />
+            }
+        })
+    }
+
+
+    public static processTagInputChange(e: React.ChangeEvent<HTMLInputElement>) {}
 }

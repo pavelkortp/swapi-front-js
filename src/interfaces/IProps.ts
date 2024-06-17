@@ -1,9 +1,8 @@
-import React from 'react';
 import {GroupBase, OptionsOrGroups} from 'react-select';
 
 export interface HTMLInputProps {
     fieldName: string;
-    handleOnChange: (e: React.ChangeEvent<HTMLInputElement>, fieldName: string) => void;
+    handleOnChange: (fieldName: string, value:string) => void;
 }
 
 export interface Tag {
@@ -11,7 +10,9 @@ export interface Tag {
     label: string;
 }
 
-export interface TagInputProps extends HTMLInputProps {
+export interface TagInputProps {
+    fieldName: string;
+    handleOnChange: (fieldName: string, value:string[]) => void;
     options: OptionsOrGroups<Tag, GroupBase<Tag>>;
     isMulti?: boolean;
 }
