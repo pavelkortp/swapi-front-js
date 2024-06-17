@@ -1,18 +1,18 @@
 import React, {useEffect} from 'react';
 import Modal from './Modal';
 import Form from './Form';
-import Entity from '../interfaces/Entity';
 import {EntityParser} from '../utils/EntityParser';
+import {Entities} from '../interfaces/Entities';
 
-interface CreateEntityProps {
+interface UpdateEntityProps {
+    entity: Entities;
+    onUpdate: (id: string, entity: FormData)=>void;
     isOpen: boolean;
-    onCreate: (o: any) => void;
     onClose: () => void;
-    entity: Entity;
 }
 
-const CreateEntity: React.FC<CreateEntityProps> = ({isOpen, entity, onCreate, onClose}) => {
 
+const UpdateEntity: React.FC<UpdateEntityProps> = ({entity,  isOpen, onClose, onUpdate}) => {
     const [data, setData] = React.useState<FormData>(new FormData());
     const [fieldsNames, setFieldsNames] = React.useState<string[]>(EntityParser.getEntityCreationFields(entity));
 
@@ -20,8 +20,8 @@ const CreateEntity: React.FC<CreateEntityProps> = ({isOpen, entity, onCreate, on
         setFieldsNames(EntityParser.getEntityCreationFields(entity))
     }, [entity]);
 
-    const handleCreate = () => {
-        onCreate(data);
+    const handleUpdate = () => {
+        // onUpdate(data);
         setData(new FormData());
     }
 
@@ -43,16 +43,18 @@ const CreateEntity: React.FC<CreateEntityProps> = ({isOpen, entity, onCreate, on
 
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
-            <h2>Create a New Record</h2>
-            <Form fieldsNames={fieldsNames}
-                  handleOnChangeTag={handleOnChangeTag}
-                  handleOnChangeText={handleOnChangeText}
-                  handleOnChangeImages={handleOnChangeImages}
+            <h2>Edit a record</h2>
+            <Form
+                fieldsNames={fieldsNames}
+                entity={entity}
+                handleOnChangeTag={handleOnChangeTag}
+                handleOnChangeImages={handleOnChangeImages}
+                handleOnChangeText={handleOnChangeText}
             />
             <div className="d-grid gap-2">
                 <button className="btn btn-outline-success" type="button" key="create"
-                        onClick={() => handleCreate()}>
-                    <b>Create</b>
+                        onClick={() => handleUpdate()}>
+                    <b>Update</b>
                 </button>
                 <button className="btn btn-danger" type="button" key="reset"
                         onClick={() => {
@@ -61,7 +63,6 @@ const CreateEntity: React.FC<CreateEntityProps> = ({isOpen, entity, onCreate, on
                 </button>
             </div>
         </Modal>
-    );
+    )
 }
-
-export default CreateEntity;
+export default UpdateEntity

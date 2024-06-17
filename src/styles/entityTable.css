@@ -5,8 +5,13 @@
     width: 100%;
 }
 
+
 table thead th {
     position: sticky;
     top: 0;
     z-index: 10;
+}
+
+.table-hover{
+    cursor: pointer;
 }

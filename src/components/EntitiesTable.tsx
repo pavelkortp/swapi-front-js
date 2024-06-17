@@ -2,46 +2,48 @@ import React from 'react';
 import EntityRow from './EntityRow';
 import '../styles/entityTable.css'
 import Entity from '../interfaces/Entity';
+import {TableProcessor} from '../utils/TableProcessor';
+import {EntityType} from '../interfaces/EntityType';
+import {Entities} from '../interfaces/Entities';
 
 export const ITEMS_PER_PAGE = 10;
 
 interface EntitiesTableProps {
+    entityType: EntityType;
     items: Entity[];
+    onDelete: (id: string) => void;
+    onEdit: (entity: Entities) => void;
 }
 
-export default class EntitiesTable extends React.Component<EntitiesTableProps> {
-    render() {
-        return (
-            <div className="container">
-                <h2>{this.props.items[0].url.split('/')[5]} table</h2>
-                <div className="table-wrapper">
-                    <div className="container">
-                        <table className="table table-light table-hover table-striped-columns">
-                            <thead className="table-dark">
-                            <tr>
-                                <th scope="col">#</th>
-                                {this.getTableHeader(this.props.items[0])}
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {this.props.items.map((item: Entity) => (
-                                <EntityRow key={item.url} data={item}/>
-                            ))}
-                            </tbody>
-                        </table>
-                    </div>
+const EntitiesTable: React.FC<EntitiesTableProps> = ({entityType, items, onDelete, onEdit}) => {
+
+
+    const getEntityRows = () =>{
+        return items.map((item: Entity) =>
+            <EntityRow key={item.url} entity={item} onDelete={onDelete} onEdit={onEdit}/>)
+    }
+
+
+    return (
+        <div className="container">
+            <h2>{entityType} table</h2>
+            <div className="table-wrapper">
+                <div className="container">
+                    <table className="table table-light table-hover">
+                        <thead className="table-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            {TableProcessor.getTableHeader(items[0])}
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {getEntityRows()}
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        );
-    }
-
-    /**
-     * Returns table header for current entities.
-     * @param e SWAPI entity.
-     */
-    getTableHeader(e: Entity) {
-        return (<>
-            {Object.keys(e).map((key: string) => (<th key={key} scope="col">{key}</th>))}
-        </>);
-    }
+        </div>
+    );
 }
+
+export default EntitiesTable;

@@ -1,0 +1,1 @@
+export type EntityType = 'people'|'films'|'starships'|'vehicles'|'planets'|'species'
