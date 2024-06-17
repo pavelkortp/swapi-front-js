@@ -3,10 +3,10 @@ import {createEntity, deleteEntity, getEntitiesPage, TOAST_OPTIONS, updateEntity
 import PagesBar from './PagesBar';
 import CreateEntity from './CreateEntity';
 import React, {useEffect, useState} from 'react';
-import Entity from '../interfaces/Entity';
 import {EntityType} from '../interfaces/EntityType';
 import {toast} from 'react-toastify';
 import UpdateEntity from './UpdateEntity';
+import {Entities} from '../interfaces/Entities';
 
 interface MainProps {
     entityType: EntityType;
@@ -15,10 +15,11 @@ interface MainProps {
 
 const Main: React.FC<MainProps> = ({entityType}) => {
     const [page, setPage] = useState<number>(1);
-    const [entities, setEntities] = useState<Entity[]>([]);
+    const [entities, setEntities] = useState<Entities[]>([]);
     const [count, setCount] = useState<number>(0);
     const [createFormVisible, setCreateFormVisible] = useState<boolean>(false);
     const [updateFormVisible, setUpdateFormVisible] = useState<boolean>(false);
+    const [selectedEntity, setSelectedEntity] = useState<Entities>();
 
     const setItems = (page: number) => {
         getEntitiesPage(entityType, page)
@@ -32,6 +33,9 @@ const Main: React.FC<MainProps> = ({entityType}) => {
         setItems(page);
     }, [page, entityType]);
 
+    useEffect(() => {
+
+    }, []);
 
     const handleDelete = (id: string) => {
         deleteEntity(entityType, id)
@@ -78,6 +82,12 @@ const Main: React.FC<MainProps> = ({entityType}) => {
             });
     }
 
+    const onEdit = (e: Entities) =>{
+        setUpdateFormVisible(true);
+        setSelectedEntity(e);
+
+    }
+
     if(!entities[0]){
         return <h1>BEDA</h1>
     }
@@ -88,7 +98,7 @@ const Main: React.FC<MainProps> = ({entityType}) => {
                 items={entities}
                 entityType={entityType}
                 onDelete={handleDelete}
-                onEdit={()=> setUpdateFormVisible(true)}
+                onEdit={onEdit}
             />
             <br></br>
             <PagesBar onClick={setPage} count={count}/>

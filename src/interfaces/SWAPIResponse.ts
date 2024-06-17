@@ -1,10 +1,10 @@
-import Entity from './Entity';
+import {Entities} from './Entities';
 
 /**
  * Api response on GET/?page=
  */
 export interface SWAPIResponsePage {
-    results: Entity[];
+    results: Entities[];
     next: string | null;
     previous: string | null;
     count: number;

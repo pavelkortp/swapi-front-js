@@ -1,18 +1,37 @@
 import React from 'react';
 import {FormInputGenerator} from '../utils/FormInputGenerator';
+import {Entities} from '../interfaces/Entities';
 
 interface FormProps {
+    entity?: Entities,
     fieldsNames: string[],
-    handleOnChangeTag: (fieldName:string, values:string[]) => void,
-    handleOnChangeText: (fieldName:string, value:string) => void,
+    handleOnChangeTag: (fieldName: string, values: string[]) => void,
+    handleOnChangeText: (fieldName: string, value: string) => void,
     handleOnChangeImages: (images: File[]) => void,
 }
 
-const Form: React.FC<FormProps> = ({fieldsNames, handleOnChangeTag, handleOnChangeImages, handleOnChangeText}) => {
+const Form: React.FC<FormProps> = ({
+                                       fieldsNames,
+                                       handleOnChangeTag,
+                                       handleOnChangeImages,
+                                       handleOnChangeText,
+                                       entity
+                                   }) => {
 
     const generateFields = () => {
         return FormInputGenerator
-            .generateCreateInputs(fieldsNames,
+            .generateCreateInputs(
+                fieldsNames,
+                handleOnChangeTag,
+                handleOnChangeText,
+                handleOnChangeImages
+            );
+    }
+
+    const generateFilledFields = (e: Entities) => {
+        return FormInputGenerator
+            .generateUpdateInputs(
+                e,
                 handleOnChangeTag,
                 handleOnChangeText,
                 handleOnChangeImages);
@@ -21,7 +40,7 @@ const Form: React.FC<FormProps> = ({fieldsNames, handleOnChangeTag, handleOnChan
 
     return (
         <form id="create-record-form">
-            {generateFields()}
+            {entity ? generateFilledFields(entity) : generateFields()}
         </form>
     )
 }

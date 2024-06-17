@@ -35,6 +35,16 @@ export class EntityParser {
         }
     }
 
+    public static getTags(links:string[]): Tag[] {
+        return links
+            .map((l)=> {
+                return {
+                    label: l.split('/')[5],
+                    value: l.match(/(\d+)\/$/)![1]
+                }
+            })
+    }
+
     // public static mapToUpdateEntityDTO(e: Entity) {
     //     return Object
     //         .entries(e)

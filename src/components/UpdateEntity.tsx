@@ -1,11 +1,11 @@
-import Entity from '../interfaces/Entity';
 import React, {useEffect} from 'react';
 import Modal from './Modal';
 import Form from './Form';
 import {EntityParser} from '../utils/EntityParser';
+import {Entities} from '../interfaces/Entities';
 
 interface UpdateEntityProps {
-    entity: Entity;
+    entity: Entities;
     onUpdate: (id: string, entity: FormData)=>void;
     isOpen: boolean;
     onClose: () => void;
@@ -20,10 +20,10 @@ const UpdateEntity: React.FC<UpdateEntityProps> = ({entity,  isOpen, onClose, on
         setFieldsNames(EntityParser.getEntityCreationFields(entity))
     }, [entity]);
 
-    // const handleUpdate = () => {
-    //     onUpdate(data);
-    //     setData(new FormData());
-    // }
+    const handleUpdate = () => {
+        // onUpdate(data);
+        setData(new FormData());
+    }
 
     const handleOnChangeImages = (images: File[]) => {
         images.forEach((e) => {
@@ -43,12 +43,25 @@ const UpdateEntity: React.FC<UpdateEntityProps> = ({entity,  isOpen, onClose, on
 
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
+            <h2>Edit a record</h2>
             <Form
                 fieldsNames={fieldsNames}
+                entity={entity}
                 handleOnChangeTag={handleOnChangeTag}
                 handleOnChangeImages={handleOnChangeImages}
                 handleOnChangeText={handleOnChangeText}
             />
+            <div className="d-grid gap-2">
+                <button className="btn btn-outline-success" type="button" key="create"
+                        onClick={() => handleUpdate()}>
+                    <b>Update</b>
+                </button>
+                <button className="btn btn-danger" type="button" key="reset"
+                        onClick={() => {
+                            console.log('RESET')
+                        }}>Reset
+                </button>
+            </div>
         </Modal>
     )
 }
