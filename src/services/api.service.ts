@@ -6,6 +6,7 @@ import {EntityParser} from '../utils/EntityParser';
 import {CreateEntityDto} from '../dto/create-entity.dto';
 import {Bounce, ToastOptions} from 'react-toastify';
 import {EntityType} from '../interfaces/EntityType';
+import {GroupBase, OptionsOrGroups} from 'react-select';
 
 
 export const BASE_URL = 'http://localhost:3000/api/v1';
@@ -58,7 +59,7 @@ export const getEntitiesPage = async (type:EntityType, page: number, name?: stri
  * @param page
  * @param name
  */
-export const getTags = async (type:EntityType, page: number, name: string): Promise<Tag[]> => {
+export const getTags = async (type:EntityType, page: number, name: string): Promise<OptionsOrGroups<Tag, GroupBase<Tag>>> => {
     return (await getEntities(type, page, name)).map((e) => EntityParser.mapToTag(e));
 }
 

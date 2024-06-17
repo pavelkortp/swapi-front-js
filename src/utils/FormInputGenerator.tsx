@@ -2,6 +2,7 @@ import TagInput, {options} from '../components/TagInput';
 import ImageInput from '../components/ImageInput';
 import React from 'react';
 import TextInput from '../components/TextInput';
+import {Entities} from '../interfaces/Entities';
 
 export class FormInputGenerator {
 
@@ -38,6 +39,7 @@ export class FormInputGenerator {
 
     public static generateUpdateInputs(
         fieldNames: string[],
+        entity: Entities,
         handleOnChangeTag: (fieldName:string, values:string[]) => void,
         handleOnChangeText: (fieldName:string, value:string) => void,
         handleOnChangeImages: (images: File[]) => void

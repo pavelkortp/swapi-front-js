@@ -9,7 +9,7 @@ import {TableProcessor} from '../utils/TableProcessor';
 interface EntityRowProps {
     entity: Entity;
     onDelete: (id: string) => void;
-    onEdit: (id: string) => void;
+    onEdit: () => void;
 }
 
 export interface EntityRowState {
@@ -35,7 +35,9 @@ export const EntityRow:React.FC<EntityRowProps> = ({entity, onDelete, onEdit})=>
         return <>loading</>
     }
 
-    const handleOnEdit = (id: string) => {}
+    const handleOnEdit = (id: string) => {
+        onEdit();
+    }
 
     return (
         <tr>
@@ -50,7 +52,7 @@ export const EntityRow:React.FC<EntityRowProps> = ({entity, onDelete, onEdit})=>
                             </button>
                         </li>
                         <li>
-                            <button className="dropdown-item" type="button" onClick={()=>onEdit(id)}>
+                            <button className="dropdown-item" type="button" onClick={()=>handleOnEdit(id)}>
                                 <MdEdit/> edit record
                             </button>
                         </li>

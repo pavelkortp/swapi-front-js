@@ -88,7 +88,7 @@ const Main: React.FC<MainProps> = ({entityType}) => {
                 items={entities}
                 entityType={entityType}
                 onDelete={handleDelete}
-                onEdit={()=> setUpdateFormVisible(false)}
+                onEdit={()=> setUpdateFormVisible(true)}
             />
             <br></br>
             <PagesBar onClick={setPage} count={count}/>
