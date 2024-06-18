@@ -1,7 +1,6 @@
 import React, {FC, useEffect, useState} from 'react';
 import Select, {GroupBase, InputActionMeta, MultiValue, OptionsOrGroups, SingleValue} from 'react-select';
 import {Tag, TagInputProps} from '../interfaces/IProps';
-import {getTags} from '../services/api.service';
 
 export const options: Tag[] = [
     {value: 'Java', label: 'Java'},
@@ -20,18 +19,13 @@ export const options: Tag[] = [
 
 type SelectedOptionType = SingleValue<Tag> | MultiValue<Tag>;
 
-const TagInput: FC<TagInputProps> = ({options, isMulti, fieldName, handleOnChange}) => {
-    const [options1, setOptions1] = React.useState<OptionsOrGroups<Tag, GroupBase<Tag>>>(options);
+const TagInput: FC<TagInputProps> = ({options, isMulti, fieldName, handleOnChange, handleOnInputChange}) => {
+    // const [options1, setOptions1] = React.useState<OptionsOrGroups<Tag, GroupBase<Tag>>>(options);
     const [selectedOptions, setSelectedOptions] = useState<SelectedOptionType>([]);
     const [searchValue, setSearchValue] = React.useState<string>('');
 
     useEffect(() => {
-        getTags('planets', 1, searchValue)
-            .then(res => {
-                setOptions1(res);
-                console.log(res);
-            })
-            .catch((e) => console.log(e));
+        handleOnInputChange(searchValue)
     }, [searchValue]);
 
     const handleChange = (selectedOptions: SelectedOptionType) => {
@@ -41,10 +35,9 @@ const TagInput: FC<TagInputProps> = ({options, isMulti, fieldName, handleOnChang
         } else {
             handleOnChange(fieldName, [selectedOptions ? selectedOptions.value : '']);
         }
-
     };
 
-    const handleOnInputChange = (newValue: string, actionMeta: InputActionMeta) => {
+    const onInput = (newValue: string, actionMeta: InputActionMeta) => {
         setSearchValue(newValue);
     }
 
@@ -55,11 +48,11 @@ const TagInput: FC<TagInputProps> = ({options, isMulti, fieldName, handleOnChang
                 placeholder={`Type the name of ${fieldName}`}
                 isMulti={isMulti}
                 name={fieldName}
-                options={options1}
+                options={options}
                 className="basic-multi-select"
                 classNamePrefix="select"
                 onChange={handleChange}
-                onInputChange={handleOnInputChange}
+                onInputChange={onInput}
             />
         </div>
     )

@@ -1,15 +1,12 @@
 import React from 'react';
 import {EntityParser} from '../utils/EntityParser';
+import {InputProps} from '../interfaces/IProps';
 
-interface ImageInputProps {
-    handleOnChange: (images:File[]) => void;
-    fieldName: string;
-}
 
-const ImageInput:React.FC<ImageInputProps> = ({fieldName, handleOnChange })=>{
+const ImageInput:React.FC<InputProps> = ({fieldName, handleOnChange })=>{
     const onChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
         const images = EntityParser.getFilesArr(e.target.files);
-        handleOnChange(images);
+        handleOnChange(fieldName, images);
     }
 
     return ((
