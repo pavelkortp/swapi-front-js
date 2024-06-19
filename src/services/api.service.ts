@@ -9,7 +9,8 @@ import {EntityType} from '../interfaces/EntityType';
 import {GroupBase, OptionsOrGroups} from 'react-select';
 
 
-export const BASE_URL = 'http://localhost:3000/api/v1';
+// export const BASE_URL = 'http://localhost:3000/api/v1';
+export const BASE_URL = 'https://swapi.dev/api';
 export const LOCAL_PEOPLE_URL = 'http://localhost:3000/api/v1/people';
 export const PEOPLE_URL = 'https://swapi.dev/api/people'; //test
 export const PLANETS_URL = 'https://swapi.dev/api/planets'; //test

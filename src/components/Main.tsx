@@ -115,7 +115,7 @@ const Main: React.FC<MainProps> = ({entityType}) => {
                 isOpen={createFormVisible}
                 onCreate={handleCreate}
                 onClose={() => setCreateFormVisible(false)}
-                entity={entities[0]}
+                entityType={entityType}
             />
 
             <UpdateEntity
