@@ -1,10 +1,10 @@
-import TextInput from '../TextInput';
-import TagInput from '../TagInput';
+import TextInput from '../inputs/TextInput';
+import TagInput from '../inputs/TagInput';
 import {getTags} from '../../services/api.service';
 import React from 'react';
 import {GroupBase, OptionsOrGroups} from 'react-select';
 import {CreationFormProps, Tag} from '../../interfaces/IProps';
-import ImageInput from '../ImageInput';
+import ImageInput from '../inputs/ImageInput';
 import FormsControls from './FormsControls';
 
 

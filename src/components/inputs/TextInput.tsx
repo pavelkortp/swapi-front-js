@@ -1,5 +1,5 @@
 import React from 'react';
-import {HTMLInputProps} from '../interfaces/IProps';
+import {HTMLInputProps} from '../../interfaces/IProps';
 
 
 /**

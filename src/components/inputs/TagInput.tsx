@@ -1,6 +1,6 @@
 import React, {FC, useEffect, useState} from 'react';
 import Select, {GroupBase, InputActionMeta, MultiValue, OptionsOrGroups, SingleValue} from 'react-select';
-import {Tag, TagInputProps} from '../interfaces/IProps';
+import {Tag, TagInputProps} from '../../interfaces/IProps';
 
 export const options: Tag[] = [
     {value: 'Java', label: 'Java'},

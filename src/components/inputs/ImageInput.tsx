@@ -1,6 +1,6 @@
 import React from 'react';
-import {EntityParser} from '../utils/EntityParser';
-import {InputProps} from '../interfaces/IProps';
+import {EntityParser} from '../../utils/EntityParser';
+import {InputProps} from '../../interfaces/IProps';
 
 
 const ImageInput:React.FC<InputProps> = ({fieldName, handleOnChange })=>{

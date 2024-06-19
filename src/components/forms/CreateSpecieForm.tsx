@@ -1,9 +1,9 @@
 import React from 'react';
 import {CreationFormProps, Tag} from '../../interfaces/IProps';
-import TextInput from '../TextInput';
-import ImageInput from '../ImageInput';
+import TextInput from '../inputs/TextInput';
+import ImageInput from '../inputs/ImageInput';
 import FormsControls from './FormsControls';
-import TagInput from '../TagInput';
+import TagInput from '../inputs/TagInput';
 import {GroupBase, OptionsOrGroups} from 'react-select';
 import {getTags} from '../../services/api.service';
 

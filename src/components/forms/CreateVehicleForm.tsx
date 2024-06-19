@@ -1,7 +1,7 @@
 import React from 'react';
 import {CreationFormProps, Tag} from '../../interfaces/IProps';
-import TextInput from '../TextInput';
-import ImageInput from '../ImageInput';
+import TextInput from '../inputs/TextInput';
+import ImageInput from '../inputs/ImageInput';
 import FormsControls from './FormsControls';
 
 const CreateVehicleForm: React.FC<CreationFormProps> = ({onCreate})=>{

@@ -1,7 +1,7 @@
-import TagInput, {options} from '../components/TagInput';
-import ImageInput from '../components/ImageInput';
+import TagInput, {options} from '../components/inputs/TagInput';
+import ImageInput from '../components/inputs/ImageInput';
 import React from 'react';
-import TextInput from '../components/TextInput';
+import TextInput from '../components/inputs/TextInput';
 import {Entities} from '../interfaces/Entities';
 import {EntityParser} from './EntityParser';
 

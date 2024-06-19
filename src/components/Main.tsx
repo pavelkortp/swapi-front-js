@@ -85,7 +85,6 @@ const Main: React.FC<MainProps> = ({entityType}) => {
     const onEdit = (e: Entities) =>{
         setUpdateFormVisible(true);
         setSelectedEntity(e);
-
     }
 
     if(!entities[0]){
@@ -119,7 +118,7 @@ const Main: React.FC<MainProps> = ({entityType}) => {
             />
 
             <UpdateEntity
-                entity={entities[0]}
+                entityType={entityType}
                 onUpdate={handleUpdate}
                 isOpen={updateFormVisible}
                 onClose={()=> setUpdateFormVisible(false)}
