@@ -7,6 +7,7 @@ import {EntityType} from '../interfaces/EntityType';
 import {toast} from 'react-toastify';
 import UpdateEntity from './UpdateEntity';
 import {Entities} from '../interfaces/Entities';
+import {EntityParser} from '../utils/EntityParser';
 
 interface MainProps {
     entityType: EntityType;
@@ -33,9 +34,6 @@ const Main: React.FC<MainProps> = ({entityType}) => {
         setItems(page);
     }, [page, entityType]);
 
-    useEffect(() => {
-
-    }, []);
 
     const handleDelete = (id: string) => {
         deleteEntity(entityType, id)
@@ -67,8 +65,8 @@ const Main: React.FC<MainProps> = ({entityType}) => {
             });
     }
 
-    const handleUpdate = (id: string, entity: FormData) => {
-        updateEntity(entityType, id, entity)
+    const handleUpdate = (entity: FormData) => {
+        updateEntity(entityType, EntityParser.getId(selectedEntity!), entity)
             .then(r => {
                 if (!r.data?.error) {
                     toast.success('🦄 Updated!', TOAST_OPTIONS);
@@ -83,6 +81,7 @@ const Main: React.FC<MainProps> = ({entityType}) => {
     }
 
     const onEdit = (e: Entities) =>{
+        alert('EDIT')
         setUpdateFormVisible(true);
         setSelectedEntity(e);
     }
@@ -118,6 +117,7 @@ const Main: React.FC<MainProps> = ({entityType}) => {
             />
 
             <UpdateEntity
+                entity={selectedEntity!}
                 entityType={entityType}
                 onUpdate={handleUpdate}
                 isOpen={updateFormVisible}
