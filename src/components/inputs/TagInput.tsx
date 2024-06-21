@@ -20,7 +20,7 @@ export const options: Tag[] = [
 type SelectedOptionType = SingleValue<Tag> | MultiValue<Tag>;
 
 const TagInput: FC<TagInputProps> = ({value,options, isMulti, fieldName, handleOnChange, handleOnInputChange}) => {
-    const [selectedOptions, setSelectedOptions] = useState<SelectedOptionType>([]);
+    const [selectedOptions, setSelectedOptions] = useState<SelectedOptionType>(value);
     const [searchValue, setSearchValue] = React.useState<string>('');
 
     useEffect(() => {
@@ -44,7 +44,7 @@ const TagInput: FC<TagInputProps> = ({value,options, isMulti, fieldName, handleO
         <div className="mb-3">
             <label htmlFor={fieldName}>Entity's {fieldName}</label>
             <Select
-                value={value}
+                value={selectedOptions}
                 placeholder={`Type the name of ${fieldName}`}
                 isMulti={isMulti}
                 name={fieldName}

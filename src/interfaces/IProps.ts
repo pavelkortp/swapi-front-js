@@ -31,7 +31,7 @@ export interface CreationFormProps {
 
 export interface UpdateFormProps {
     onUpdate: (data: FormData) => void;
-    existedData: Entities;
+    existedData: any;
 }
 
 export interface FormControlsProps {

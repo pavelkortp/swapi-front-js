@@ -81,7 +81,6 @@ const Main: React.FC<MainProps> = ({entityType}) => {
     }
 
     const onEdit = (e: Entities) =>{
-        alert('EDIT')
         setUpdateFormVisible(true);
         setSelectedEntity(e);
     }

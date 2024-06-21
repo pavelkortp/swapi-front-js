@@ -35,14 +35,15 @@ const UpdatePeopleForm: React.FC<UpdateFormProps> = ({onUpdate, existedData}) =>
     return (
         <>
             <form id="update-record-form">
-                <TextInput key={'name'} fieldName={'name'} handleOnChange={handleOnChange}/>
-                <TextInput key={'birth_year'} fieldName={'birth_year'} handleOnChange={handleOnChange}/>
-                <TextInput key={'eye_color'} fieldName={'eye_color'} handleOnChange={handleOnChange}/>
-                <TextInput key={'gender'} fieldName={'gender'} handleOnChange={handleOnChange}/>
-                <TextInput key={'height'} fieldName={'height'} handleOnChange={handleOnChange}/>
-                <TextInput key={'mass'} fieldName={'mass'} handleOnChange={handleOnChange}/>
-                <TextInput key={'skin_color'} fieldName={'skin_color'} handleOnChange={handleOnChange}/>
+                <TextInput key={'name'} fieldName={'name'} value={existedData.name} handleOnChange={handleOnChange}/>
+                <TextInput key={'birth_year'} fieldName={'birth_year'} value={existedData.birth_year} handleOnChange={handleOnChange}/>
+                <TextInput key={'eye_color'} fieldName={'eye_color'} value={existedData.eye_color} handleOnChange={handleOnChange}/>
+                <TextInput key={'gender'} fieldName={'gender'}  value={existedData.gender} handleOnChange={handleOnChange}/>
+                <TextInput key={'height'} fieldName={'height'}  value={existedData.height} handleOnChange={handleOnChange}/>
+                <TextInput key={'mass'} fieldName={'mass'}  value={existedData.mass} handleOnChange={handleOnChange}/>
+                <TextInput key={'skin_color'} fieldName={'skin_color'} value={existedData.skin_color} handleOnChange={handleOnChange}/>
                 <TagInput key={'homeworld'}
+                          value={existedData.homeworld}
                           fieldName={'homeworld'}
                           handleOnChange={handleOnChange}
                           handleOnInputChange={(text: string) => {
@@ -52,6 +53,7 @@ const UpdatePeopleForm: React.FC<UpdateFormProps> = ({onUpdate, existedData}) =>
                 />
                 <TagInput
                     isMulti
+                    value={existedData.films}
                     handleOnInputChange={(text: string) => {
                         getTags('films', 1, text, setFilmsOptions)
                     }}
@@ -62,6 +64,7 @@ const UpdatePeopleForm: React.FC<UpdateFormProps> = ({onUpdate, existedData}) =>
 
                 <TagInput
                     isMulti
+                    value={existedData.species}
                     handleOnInputChange={(text: string) => {
                         getTags('species', 1, text, setSpeciesOptions)
                     }}
@@ -75,6 +78,7 @@ const UpdatePeopleForm: React.FC<UpdateFormProps> = ({onUpdate, existedData}) =>
                     handleOnInputChange={(text: string) => {
                         getTags('vehicles', 1, text, setVehiclesOptions)
                     }}
+                    value={existedData.vehicles}
                     options={vehiclesOptions}
                     fieldName={'vehicles'}
                     handleOnChange={handleOnChange}
@@ -85,6 +89,7 @@ const UpdatePeopleForm: React.FC<UpdateFormProps> = ({onUpdate, existedData}) =>
                     handleOnInputChange={(text: string) => {
                         getTags('starships', 1, text, setStarshipsOptions)
                     }}
+                    value={existedData.starships}
                     options={starshipsOptions}
                     fieldName={'starships'}
                     handleOnChange={handleOnChange}
