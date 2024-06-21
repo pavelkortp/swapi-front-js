@@ -19,8 +19,7 @@ export const options: Tag[] = [
 
 type SelectedOptionType = SingleValue<Tag> | MultiValue<Tag>;
 
-const TagInput: FC<TagInputProps> = ({options, isMulti, fieldName, handleOnChange, handleOnInputChange}) => {
-    // const [options1, setOptions1] = React.useState<OptionsOrGroups<Tag, GroupBase<Tag>>>(options);
+const TagInput: FC<TagInputProps> = ({value,options, isMulti, fieldName, handleOnChange, handleOnInputChange}) => {
     const [selectedOptions, setSelectedOptions] = useState<SelectedOptionType>([]);
     const [searchValue, setSearchValue] = React.useState<string>('');
 
@@ -45,6 +44,7 @@ const TagInput: FC<TagInputProps> = ({options, isMulti, fieldName, handleOnChang
         <div className="mb-3">
             <label htmlFor={fieldName}>Entity's {fieldName}</label>
             <Select
+                value={value}
                 placeholder={`Type the name of ${fieldName}`}
                 isMulti={isMulti}
                 name={fieldName}
