@@ -7,6 +7,7 @@ import {CreateEntityDto} from '../dto/create-entity.dto';
 import {Bounce, ToastOptions} from 'react-toastify';
 import {EntityType} from '../interfaces/EntityType';
 import {GroupBase, OptionsOrGroups} from 'react-select';
+import {Dispatch, SetStateAction} from 'react';
 
 
 // export const BASE_URL = 'http://localhost:3000/api/v1';
@@ -37,7 +38,7 @@ export const TOAST_OPTIONS: ToastOptions = {
  * @param page
  * @param name
  */
-export const getEntities = async (type:EntityType, page: number, name?: string): Promise<Entity[]> => {
+export const getEntities = async (type: EntityType, page: number, name?: string): Promise<Entity[]> => {
     const res = await getEntitiesPage(type, page, name);
     return res.results;
 }
@@ -48,7 +49,7 @@ export const getEntities = async (type:EntityType, page: number, name?: string):
  * @param page
  * @param name
  */
-export const getEntitiesPage = async (type:EntityType, page: number, name?: string): Promise<SWAPIResponsePage> =>{
+export const getEntitiesPage = async (type: EntityType, page: number, name?: string): Promise<SWAPIResponsePage> => {
     const response = await axios
         .get<SWAPIResponsePage>(`${BASE_URL}/${type}/?page=${page}${name ? `&name=${name}` : ''}`);
     return response.data;
@@ -57,19 +58,9 @@ export const getEntitiesPage = async (type:EntityType, page: number, name?: stri
 /**
  *
  * @param type
- * @param page
- * @param name
- */
-export const getTags = async (type:EntityType, page: number, name: string): Promise<OptionsOrGroups<Tag, GroupBase<Tag>>> => {
-    return (await getEntities(type, page, name)).map((e) => EntityParser.mapToTag(e));
-}
-
-/**
- *
- * @param type
  * @param id
  */
-export const deleteEntity = (type:EntityType, id: string): Promise<AxiosResponse> => {
+export const deleteEntity = (type: EntityType, id: string): Promise<AxiosResponse> => {
     return axios.delete(`${BASE_URL}/${type}/${id}`)
 }
 
@@ -78,7 +69,7 @@ export const deleteEntity = (type:EntityType, id: string): Promise<AxiosResponse
  * @param entityType
  * @param entity
  */
-export const createEntity =  (entityType:string, entity: FormData): Promise<AxiosResponse> => {
+export const createEntity = (entityType: string, entity: FormData): Promise<AxiosResponse> => {
     return axios.post(`${BASE_URL}/${entityType}`, entity)
 }
 
@@ -88,7 +79,7 @@ export const createEntity =  (entityType:string, entity: FormData): Promise<Axio
  * @param id
  * @param entity
  */
-export const updateEntity = (entityType:string, id: string, entity: FormData): Promise<AxiosResponse> => {
+export const updateEntity = (entityType: string, id: string, entity: FormData): Promise<AxiosResponse> => {
     return axios.patch(`${BASE_URL}/${entityType}/${id}`, entity)
 }
 
@@ -96,28 +87,69 @@ export const updateEntity = (entityType:string, id: string, entity: FormData): P
  *
  * @param links
  */
-export const getImages = async (links:string[]): Promise<File[]> =>{
-    return Promise.all(links.map(async (link)=> await getImage(link)));
+export const getImages = async (links: string[]): Promise<File[]> => {
+    return Promise.all(links.map(async (link) => await getImage(link)));
 }
 
-export const getImage = async (url:string):Promise<File> => {
+export const getImage = async (url: string): Promise<File> => {
     return (await axios.get(url)).data;
 }
+
+/**
+ *
+ * @param type
+ * @param page
+ * @param name
+ * @param cb
+ */
+export const getTags = async (
+    type: EntityType,
+    page: number,
+    name: string,
+    cb: Dispatch<SetStateAction<OptionsOrGroups<Tag, GroupBase<Tag>>>>
+): Promise<void> => {
+    const tags = (await getEntities(type, page, name)).map((e) => EntityParser.mapToTag(e));
+    cb(tags);
+}
+
+// export const getTagsPeople = async (name: string, page: number = 1):Promise<OptionsOrGroups<Tag, GroupBase<Tag>>> =>{
+//     return await getTags('people', page, name);
+// }
+//
+// export const getTagsPlanets = async (name: string, page: number = 1):Promise<OptionsOrGroups<Tag, GroupBase<Tag>>> =>{
+//     return await getTags('planets', page, name);
+// }
+//
+// export const getTagsFilms = async (name: string, page: number = 1):Promise<OptionsOrGroups<Tag, GroupBase<Tag>>> =>{
+//     return await getTags('films', page, name);
+// }
+//
+// export const getTagsSpecies= async (name: string, page: number = 1):Promise<OptionsOrGroups<Tag, GroupBase<Tag>>> =>{
+//     return await getTags('species', page, name);
+// }
+//
+// export const getTagsVehicles = async (name: string, page: number = 1):Promise<OptionsOrGroups<Tag, GroupBase<Tag>>> =>{
+//     return await getTags('vehicles', page, name);
+// }
+//
+// export const getTagsStarships = async (name: string, page: number = 1):Promise<OptionsOrGroups<Tag, GroupBase<Tag>>> =>{
+//     return await getTags('starships', page, name);
+// }
 
 
 /**
  *
  * @param entity
  */
-const mapToFormData = (entity: CreateEntityDto): FormData =>{
+const mapToFormData = (entity: CreateEntityDto): FormData => {
     const data = new FormData();
     Object.entries(entity).forEach(([key, value]) => {
-        if(Array.isArray(value)){
+        if (Array.isArray(value)) {
             value.forEach((item) => {
-                data.append(key,item)
+                data.append(key, item)
             })
-        }else {
-            data.append(key,value)
+        } else {
+            data.append(key, value)
         }
     })
     return data;

@@ -1,11 +1,11 @@
 import React from 'react';
-import {CreationFormProps, Tag} from '../../interfaces/IProps';
-import TextInput from '../inputs/TextInput';
-import ImageInput from '../inputs/ImageInput';
-import FormsControls from './FormsControls';
-import TagInput from '../inputs/TagInput';
+import {CreationFormProps, Tag} from '../../../interfaces/IProps';
+import TextInput from '../../inputs/TextInput';
+import ImageInput from '../../inputs/ImageInput';
+import FormsControls from '../FormsControls';
+import TagInput from '../../inputs/TagInput';
 import {GroupBase, OptionsOrGroups} from 'react-select';
-import {getTags} from '../../services/api.service';
+import {getTags} from '../../../services/api.service';
 
 const CreateSpecieForm: React.FC<CreationFormProps> = ({onCreate})=>{
     const [formData, setFormData] = React.useState<FormData>(new FormData());
@@ -23,9 +23,8 @@ const CreateSpecieForm: React.FC<CreationFormProps> = ({onCreate})=>{
 
 
     const handleOnInputChange = (text: string) => {
-        getTags('planets', 1, text)
+        getTags('planets', 1, text, setHomeworldOptions)
             .then(res => {
-                setHomeworldOptions(res);
                 console.log(res);
             })
             .catch((e) => console.log(e));

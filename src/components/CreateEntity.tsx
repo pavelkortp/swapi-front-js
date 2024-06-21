@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal from './Modal';
 import {EntityType} from '../interfaces/EntityType';
-import {CREATE_FORM} from './forms/CreateForm';
+import {CREATE_FORM} from './forms/create/CreateForm';
 
 interface CreateEntityProps {
     isOpen: boolean;

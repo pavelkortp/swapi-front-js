@@ -1,14 +1,14 @@
-import TextInput from '../inputs/TextInput';
-import TagInput from '../inputs/TagInput';
-import {getTags} from '../../services/api.service';
+import TextInput from '../../inputs/TextInput';
+import TagInput from '../../inputs/TagInput';
+import {getTags} from '../../../services/api.service';
 import React from 'react';
 import {GroupBase, OptionsOrGroups} from 'react-select';
-import {CreationFormProps, Tag} from '../../interfaces/IProps';
-import ImageInput from '../inputs/ImageInput';
-import FormsControls from './FormsControls';
+import {CreationFormProps, Tag} from '../../../interfaces/IProps';
+import ImageInput from '../../inputs/ImageInput';
+import FormsControls from '../FormsControls';
 
 
-const CreatePeopleForm:React.FC<CreationFormProps> = ({onCreate}) => {
+const CreatePeopleForm: React.FC<CreationFormProps> = ({onCreate}) => {
     const [homeworldOptions, setHomeworldOptions] = React.useState<OptionsOrGroups<Tag, GroupBase<Tag>>>([]);
     const [formData, setFormData] = React.useState<FormData>(new FormData());
 
@@ -23,9 +23,8 @@ const CreatePeopleForm:React.FC<CreationFormProps> = ({onCreate}) => {
     }
 
     const handleOnInputChange = (text: string) => {
-        getTags('planets', 1, text)
+        getTags('planets', 1, text, setHomeworldOptions)
             .then(res => {
-                setHomeworldOptions(res);
                 console.log(res);
             })
             .catch((e) => console.log(e));
@@ -49,11 +48,11 @@ const CreatePeopleForm:React.FC<CreationFormProps> = ({onCreate}) => {
                 <TagInput key={'homeworld'}
                           fieldName={'homeworld'}
                           handleOnChange={handleOnChange}
-                          handleOnInputChange = {handleOnInputChange}
+                          handleOnInputChange={handleOnInputChange}
                           options={homeworldOptions}/>
                 <ImageInput key={'images'} fieldName={'images'} handleOnChange={handleOnChange}/>
             </form>
-            <FormsControls onCreate={handleCreate} onReset={()=>console.log('reset')}/>
+            <FormsControls onCreate={handleCreate} onReset={() => console.log('reset')}/>
         </>
 
 

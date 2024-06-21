@@ -5,8 +5,8 @@ import CreateFilmForm from './CreateFilmForm';
 import CreateSpecieForm from './CreateSpecieForm';
 import CreateStarshipForm from './CreateStarshipForm';
 import CreateVehicleForm from './CreateVehicleForm';
-import {EntityType} from '../../interfaces/EntityType';
-import {CreationFormProps} from '../../interfaces/IProps';
+import {EntityType} from '../../../interfaces/EntityType';
+import {CreationFormProps} from '../../../interfaces/IProps';
 
 export const CREATE_FORM: { [key in EntityType]: FC<CreationFormProps> } = {
     people: CreatePeopleForm,
