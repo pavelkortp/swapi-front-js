@@ -1,6 +1,5 @@
-import Entity from '../interfaces/Entity';
 
-export class Specie implements Entity{
+export class Specie{
     constructor(
         public name: string,
         public classification: string,

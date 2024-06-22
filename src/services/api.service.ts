@@ -10,8 +10,8 @@ import {Dispatch, SetStateAction} from 'react';
 import {Entities} from '../interfaces/Entities';
 
 
-// export const BASE_URL = 'http://localhost:3000/api/v1';
-export const BASE_URL = 'https://swapi.dev/api';
+export const BASE_URL = 'http://localhost:3000/api/v1';
+// export const BASE_URL = 'https://swapi.dev/api';
 export const LOCAL_PEOPLE_URL = 'http://localhost:3000/api/v1/people';
 export const PEOPLE_URL = 'https://swapi.dev/api/people'; //test
 export const PLANETS_URL = 'https://swapi.dev/api/planets'; //test
@@ -118,19 +118,18 @@ export const getTags = async (
  *
  * @param entity
  */
-export const mapTags = async (entity: Entities) => {
-    const {url, edited, created, ...clear} = entity;
+export const mapTags = async (entity: Entity) => {
 
+    const clear: Omit<Entities, 'edited'|'url'|'created'> = entity;
     const entries = await Promise.all(
         Object
             .entries(clear)
             .map(async ([key, value]) => {
-                if (key === 'homeworld') {
-                    return [key, await replaceWithTag(value)];
-                }else if(Array.isArray(value)) {
+                if(Array.isArray(value)) {
                     const data = await Promise.all(value.map(async (item) => await replaceWithTag(item)))
-                    console.log(data)
                     return [key, data]
+                }else if (key === 'homeworld') {
+                    return [key, await replaceWithTag(value)];
                 }
 
                 return [key, value];

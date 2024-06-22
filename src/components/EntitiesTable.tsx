@@ -4,7 +4,6 @@ import '../styles/entityTable.css'
 import Entity from '../interfaces/Entity';
 import {TableProcessor} from '../utils/TableProcessor';
 import {EntityType} from '../interfaces/EntityType';
-import {Entities} from '../interfaces/Entities';
 
 export const ITEMS_PER_PAGE = 10;
 
@@ -12,7 +11,7 @@ interface EntitiesTableProps {
     entityType: EntityType;
     items: Entity[];
     onDelete: (id: string) => void;
-    onEdit: (entity: Entities) => void;
+    onEdit: (entity: Entity) => void;
 }
 
 const EntitiesTable: React.FC<EntitiesTableProps> = ({entityType, items, onDelete, onEdit}) => {

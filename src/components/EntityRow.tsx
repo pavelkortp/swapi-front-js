@@ -4,13 +4,12 @@ import {RiDeleteBin6Fill} from 'react-icons/ri';
 import {MdEdit} from 'react-icons/md';
 import {EntityParser} from '../utils/EntityParser';
 import {TableProcessor} from '../utils/TableProcessor';
-import {Entities} from '../interfaces/Entities';
 
 
 interface EntityRowProps {
     entity: Entity;
     onDelete: (id: string) => void;
-    onEdit: (entity:Entities) => void;
+    onEdit: (entity:Entity) => void;
 }
 
 export interface EntityRowState {
@@ -37,7 +36,7 @@ export const EntityRow:React.FC<EntityRowProps> = ({entity, onDelete, onEdit})=>
     }
 
     const handleOnEdit = (id: string) => {
-        onEdit(entity as Entities);
+        onEdit(entity);
     }
 
     return (

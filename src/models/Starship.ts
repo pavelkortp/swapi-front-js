@@ -1,6 +1,5 @@
-import Entity from '../interfaces/Entity';
 
-export class Starship implements Entity{
+export class Starship {
     constructor(
         public name: string,
         public model: string,

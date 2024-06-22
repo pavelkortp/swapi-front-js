@@ -1,5 +1,6 @@
 import Entity from '../interfaces/Entity';
 import {Tag} from '../interfaces/IProps';
+import {EntityType} from '../interfaces/EntityType';
 
 /**
  * Companion object to parse entity, and get data from there
@@ -11,8 +12,8 @@ export class EntityParser {
      * @param entity
      * @return string entity type (people, planets, ect...)
      */
-    public static getType(entity: Entity): EndingType {
-        return entity.url.split('/')[5] as EndingType;
+    public static getType(entity: Entity): EntityType {
+        return entity.url.split('/')[5] as EntityType;
     }
 
     /**
@@ -30,7 +31,7 @@ export class EntityParser {
      */
     public static mapToTag(e: Entity): Tag {
         return {
-            label: e.title ? e.title : e.name!,
+            label: (e.title ? e.title : e.name!) as string,
             value: this.getId(e)
         }
     }

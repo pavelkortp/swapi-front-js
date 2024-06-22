@@ -20,6 +20,7 @@ const CreatePeopleForm: React.FC<CreationFormProps> = ({onCreate}) => {
         } else {
             formData.set(fieldName, value);
         }
+        console.log(formData)
     }
 
     const handleOnInputChange = (text: string) => {
@@ -40,6 +41,7 @@ const CreatePeopleForm: React.FC<CreationFormProps> = ({onCreate}) => {
             <form id="create-record-form">
                 <TextInput key={'name'} fieldName={'name'} handleOnChange={handleOnChange}/>
                 <TextInput key={'birth_year'} fieldName={'birth_year'} handleOnChange={handleOnChange}/>
+                <TextInput key={'hair_color'} fieldName={'hair_color'} handleOnChange={handleOnChange}/>
                 <TextInput key={'eye_color'} fieldName={'eye_color'} handleOnChange={handleOnChange}/>
                 <TextInput key={'gender'} fieldName={'gender'} handleOnChange={handleOnChange}/>
                 <TextInput key={'height'} fieldName={'height'} handleOnChange={handleOnChange}/>

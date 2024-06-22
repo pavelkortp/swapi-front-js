@@ -5,9 +5,10 @@ import { EntityType } from '../interfaces/EntityType';
 import { UPDATE_FORM } from './forms/update/UpdateForm';
 import { mapTags } from '../services/api.service';
 import { ClipLoader } from 'react-spinners';
+import Entity from '../interfaces/Entity';
 
 interface UpdateEntityProps {
-    entity: Entities;
+    entity: Entity  ;
     entityType: EntityType;
     onUpdate: (entity: FormData) => void;
     isOpen: boolean;

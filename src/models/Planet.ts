@@ -1,6 +1,5 @@
-import Entity from '../interfaces/Entity';
 
-export class Planet implements Entity{
+export class Planet{
     constructor(
         public name: string,
         public rotation_period: string,

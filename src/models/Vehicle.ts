@@ -1,6 +1,4 @@
-import Entity from '../interfaces/Entity';
-
-export class Vehicle implements Entity{
+export class Vehicle {
     constructor(
         public name: string,
         public model: string,
@@ -19,5 +17,6 @@ export class Vehicle implements Entity{
         public created: string,
         public edited: string,
         public url: string
-    ) {}
+    ) {
+    }
 }

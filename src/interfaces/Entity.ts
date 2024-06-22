@@ -6,6 +6,5 @@ export default interface Entity {
     created: string;
     url: string;
     images: string[];
-    name?: string;
-    title?: string;
+    [key: string]: string | string[];
 }

@@ -1,9 +1,8 @@
-import Entity from '../interfaces/Entity';
 
 /**
  *
  */
-export class People implements Entity{
+export class People{
     constructor(
         public name: string,
         public height: string,

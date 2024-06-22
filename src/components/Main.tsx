@@ -8,6 +8,7 @@ import {toast} from 'react-toastify';
 import UpdateEntity from './UpdateEntity';
 import {Entities} from '../interfaces/Entities';
 import {EntityParser} from '../utils/EntityParser';
+import Entity from '../interfaces/Entity';
 
 interface MainProps {
     entityType: EntityType;
@@ -16,11 +17,11 @@ interface MainProps {
 
 const Main: React.FC<MainProps> = ({entityType}) => {
     const [page, setPage] = useState<number>(1);
-    const [entities, setEntities] = useState<Entities[]>([]);
+    const [entities, setEntities] = useState<Entity[]>([]);
     const [count, setCount] = useState<number>(0);
     const [createFormVisible, setCreateFormVisible] = useState<boolean>(false);
     const [updateFormVisible, setUpdateFormVisible] = useState<boolean>(false);
-    const [selectedEntity, setSelectedEntity] = useState<Entities>();
+    const [selectedEntity, setSelectedEntity] = useState<Entity>();
 
     const setItems = (page: number) => {
         getEntitiesPage(entityType, page)
@@ -80,7 +81,7 @@ const Main: React.FC<MainProps> = ({entityType}) => {
             });
     }
 
-    const onEdit = (e: Entities) =>{
+    const onEdit = (e: Entity) =>{
         setUpdateFormVisible(true);
         setSelectedEntity(e);
     }
