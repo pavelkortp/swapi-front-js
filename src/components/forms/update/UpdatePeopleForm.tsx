@@ -96,7 +96,7 @@ const UpdatePeopleForm: React.FC<UpdateFormProps> = ({onUpdate, existedData}) =>
                 />
                 <ImageInput key={'images'} fieldName={'images'} handleOnChange={handleOnChange}/>
             </form>
-            <FormsControls onCreate={handleUpdate} onReset={() => console.log('reset')}/>
+            <FormsControls onCreate={handleUpdate} onReset={() => {setFormData(new FormData())}}/>
         </>
     )
 }

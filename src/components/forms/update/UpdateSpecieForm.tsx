@@ -10,6 +10,9 @@ import {getTags} from '../../../services/api.service';
 const UpdateSpecieForm: React.FC<UpdateFormProps> = ({onUpdate}) => {
     const [formData, setFormData] = React.useState<FormData>(new FormData());
     const [homeworldOptions, setHomeworldOptions] = React.useState<OptionsOrGroups<Tag, GroupBase<Tag>>>([]);
+    const [peopleOptions, setPeopleOptions] = React.useState<OptionsOrGroups<Tag, GroupBase<Tag>>>([]);
+    const [filmsOptions, setFilmsOptions] = React.useState<OptionsOrGroups<Tag, GroupBase<Tag>>>([]);
+
 
     const handleOnChange = (fieldName: string, value: string | string[] | File[]) => {
         if (Array.isArray(value)) {
@@ -19,16 +22,6 @@ const UpdateSpecieForm: React.FC<UpdateFormProps> = ({onUpdate}) => {
         } else {
             formData.set(fieldName, value);
         }
-    }
-
-
-    const handleOnInputChange = (text: string) => {
-        getTags('planets', 1, text)
-            .then(res => {
-                setHomeworldOptions(res);
-                console.log(res);
-            })
-            .catch((e) => console.log(e));
     }
 
 
@@ -52,12 +45,16 @@ const UpdateSpecieForm: React.FC<UpdateFormProps> = ({onUpdate}) => {
                 <TagInput key={'homeworld'}
                           fieldName={'homeworld'}
                           handleOnChange={handleOnChange}
-                          handleOnInputChange={handleOnInputChange}
+                          handleOnInputChange={(text: string) => {
+                              getTags('planets', 1, text, setHomeworldOptions)
+                          }}
                           options={homeworldOptions}/>
 
                 <TagInput
                     isMulti
-                    handleOnInputChange={handleOnInputChange}
+                    handleOnInputChange={(text: string) => {
+                        getTags('people', 1, text, setPeopleOptions)
+                    }}
                     options={peopleOptions}
                     fieldName={'people'}
                     handleOnChange={handleOnChange}
@@ -65,7 +62,9 @@ const UpdateSpecieForm: React.FC<UpdateFormProps> = ({onUpdate}) => {
 
                 <TagInput
                     isMulti
-                    handleOnInputChange={handleOnInputChange}
+                    handleOnInputChange={(text: string) => {
+                        getTags('films', 1, text, setFilmsOptions)
+                    }}
                     options={filmsOptions}
                     fieldName={'films'}
                     handleOnChange={handleOnChange}

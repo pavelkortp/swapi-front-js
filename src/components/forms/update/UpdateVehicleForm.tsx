@@ -4,9 +4,14 @@ import TextInput from '../../inputs/TextInput';
 import ImageInput from '../../inputs/ImageInput';
 import FormsControls from '../FormsControls';
 import TagInput from '../../inputs/TagInput';
+import {GroupBase, OptionsOrGroups} from 'react-select';
+import {getTags} from '../../../services/api.service';
 
 const UpdateVehicleForm: React.FC<UpdateFormProps> = ({onUpdate})=>{
     const [formData, setFormData] = React.useState<FormData>(new FormData());
+    const [filmsOptions, setFilmsOptions] = React.useState<OptionsOrGroups<Tag, GroupBase<Tag>>>([]);
+    const [peopleOptions, setPeopleOptions] = React.useState<OptionsOrGroups<Tag, GroupBase<Tag>>>([]);
+
 
     const handleOnChange = (fieldName: string, value: string | string[] | File[]) => {
         if (Array.isArray(value)) {
@@ -20,7 +25,7 @@ const UpdateVehicleForm: React.FC<UpdateFormProps> = ({onUpdate})=>{
 
 
     const handleCreate = () => {
-        onCreate(formData);
+        onUpdate(formData);
         setFormData(new FormData());
     }
 
@@ -42,16 +47,20 @@ const UpdateVehicleForm: React.FC<UpdateFormProps> = ({onUpdate})=>{
 
                 <TagInput
                     isMulti
-                    handleOnInputChange={handleOnInputChange}
-                    options={pilotsOptions}
+                    handleOnInputChange={(text: string) => {
+                        getTags('people', 1, text, setPeopleOptions)
+                    }}
+                    options={peopleOptions}
                     fieldName={'pilots'}
                     handleOnChange={handleOnChange}
                 />
 
                 <TagInput
                     isMulti
-                    handleOnInputChange={handleOnInputChange}
-                    options={filmsOptions}
+                    handleOnInputChange={(text: string) => {
+                        getTags('films', 1, text, setFilmsOptions)
+                    }}
+                    options={peopleOptions}
                     fieldName={'films'}
                     handleOnChange={handleOnChange}
                 />

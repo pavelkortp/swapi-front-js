@@ -1,12 +1,16 @@
 import React from 'react';
-import { UpdateFormProps} from '../../../interfaces/IProps';
+import {Tag, UpdateFormProps} from '../../../interfaces/IProps';
 import TextInput from '../../inputs/TextInput';
 import ImageInput from '../../inputs/ImageInput';
 import FormsControls from '../FormsControls';
 import TagInput from '../../inputs/TagInput';
+import {getTags} from '../../../services/api.service';
+import {GroupBase, OptionsOrGroups} from 'react-select';
 
 const UpdateStarshipForm: React.FC<UpdateFormProps> = ({onUpdate}) => {
     const [formData, setFormData] = React.useState<FormData>(new FormData());
+    const [filmsOptions, setFilmsOptions] = React.useState<OptionsOrGroups<Tag, GroupBase<Tag>>>([]);
+    const [peopleOptions, setPeopleOptions] = React.useState<OptionsOrGroups<Tag, GroupBase<Tag>>>([]);
 
     const handleOnChange = (fieldName: string, value: string | string[] | File[]) => {
         if (Array.isArray(value)) {
@@ -45,15 +49,19 @@ const UpdateStarshipForm: React.FC<UpdateFormProps> = ({onUpdate}) => {
 
                 <TagInput
                     isMulti
-                    handleOnInputChange={handleOnInputChange}
-                    options={pilotsOptions}
+                    handleOnInputChange={(text: string) => {
+                        getTags('people', 1, text, setPeopleOptions)
+                    }}
+                    options={peopleOptions}
                     fieldName={'pilots'}
                     handleOnChange={handleOnChange}
                 />
 
                 <TagInput
                     isMulti
-                    handleOnInputChange={handleOnInputChange}
+                    handleOnInputChange={(text: string) => {
+                        getTags('films', 1, text, setFilmsOptions)
+                    }}
                     options={filmsOptions}
                     fieldName={'films'}
                     handleOnChange={handleOnChange}

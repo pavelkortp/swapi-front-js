@@ -1,5 +1,5 @@
 import React, {FC, useEffect, useState} from 'react';
-import Select, {GroupBase, InputActionMeta, MultiValue, OptionsOrGroups, SingleValue} from 'react-select';
+import Select, { InputActionMeta, MultiValue, SingleValue} from 'react-select';
 import {Tag, TagInputProps} from '../../interfaces/IProps';
 
 export const options: Tag[] = [
@@ -17,7 +17,7 @@ export const options: Tag[] = [
     {value: 'Express.js', label: 'Express.js'},
 ];
 
-type SelectedOptionType = SingleValue<Tag> | MultiValue<Tag>;
+type SelectedOptionType = SingleValue<Tag> | MultiValue<Tag> | undefined;
 
 const TagInput: FC<TagInputProps> = ({value,options, isMulti, fieldName, handleOnChange, handleOnInputChange}) => {
     const [selectedOptions, setSelectedOptions] = useState<SelectedOptionType>(value);
