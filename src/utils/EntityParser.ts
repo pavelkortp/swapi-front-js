@@ -45,14 +45,6 @@ export class EntityParser {
             })
     }
 
-    // public static mapToUpdateEntityDTO(e: Entity) {
-    //     return Object
-    //         .entries(e)
-    //         .map(([key, value]) => {
-    //
-    //         })
-    // }
-
     public static getEntityCreationFields(entity: Entity): string[] {
         const fields =  Object
             .entries(entity)
