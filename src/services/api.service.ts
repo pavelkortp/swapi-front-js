@@ -3,11 +3,11 @@ import {SWAPIResponsePage} from '../interfaces/SWAPIResponse';
 import Entity from '../interfaces/Entity';
 import {Tag} from '../interfaces/IProps';
 import {EntityParser} from '../utils/EntityParser';
-import {CreateEntityDto} from '../dto/create-entity.dto';
 import {Bounce, ToastOptions} from 'react-toastify';
 import {EntityType} from '../interfaces/EntityType';
 import {GroupBase, OptionsOrGroups} from 'react-select';
 import {Dispatch, SetStateAction} from 'react';
+import {Entities} from '../interfaces/Entities';
 
 
 // export const BASE_URL = 'http://localhost:3000/api/v1';
@@ -61,7 +61,7 @@ export const getEntitiesPage = async (type: EntityType, page: number, name?: str
  * @param id
  */
 export const deleteEntity = (type: EntityType, id: string): Promise<AxiosResponse> => {
-    return axios.delete(`${BASE_URL}/${type}/${id}`)
+    return axios.delete(`${BASE_URL}/${type}/${id}`);
 }
 
 /**
@@ -70,7 +70,7 @@ export const deleteEntity = (type: EntityType, id: string): Promise<AxiosRespons
  * @param entity
  */
 export const createEntity = (entityType: string, entity: FormData): Promise<AxiosResponse> => {
-    return axios.post(`${BASE_URL}/${entityType}`, entity)
+    return axios.post(`${BASE_URL}/${entityType}`, entity);
 }
 
 /**
@@ -80,7 +80,7 @@ export const createEntity = (entityType: string, entity: FormData): Promise<Axio
  * @param entity
  */
 export const updateEntity = (entityType: string, id: string, entity: FormData): Promise<AxiosResponse> => {
-    return axios.patch(`${BASE_URL}/${entityType}/${id}`, entity)
+    return axios.patch(`${BASE_URL}/${entityType}/${id}`, entity);
 }
 
 /**
@@ -108,49 +108,47 @@ export const getTags = async (
     name: string,
     cb: Dispatch<SetStateAction<OptionsOrGroups<Tag, GroupBase<Tag>>>>
 ): Promise<void> => {
+    console.log(await getEntities(type, page, name));
     const tags = (await getEntities(type, page, name)).map((e) => EntityParser.mapToTag(e));
     cb(tags);
 }
-
-// export const getTagsPeople = async (name: string, page: number = 1):Promise<OptionsOrGroups<Tag, GroupBase<Tag>>> =>{
-//     return await getTags('people', page, name);
-// }
-//
-// export const getTagsPlanets = async (name: string, page: number = 1):Promise<OptionsOrGroups<Tag, GroupBase<Tag>>> =>{
-//     return await getTags('planets', page, name);
-// }
-//
-// export const getTagsFilms = async (name: string, page: number = 1):Promise<OptionsOrGroups<Tag, GroupBase<Tag>>> =>{
-//     return await getTags('films', page, name);
-// }
-//
-// export const getTagsSpecies= async (name: string, page: number = 1):Promise<OptionsOrGroups<Tag, GroupBase<Tag>>> =>{
-//     return await getTags('species', page, name);
-// }
-//
-// export const getTagsVehicles = async (name: string, page: number = 1):Promise<OptionsOrGroups<Tag, GroupBase<Tag>>> =>{
-//     return await getTags('vehicles', page, name);
-// }
-//
-// export const getTagsStarships = async (name: string, page: number = 1):Promise<OptionsOrGroups<Tag, GroupBase<Tag>>> =>{
-//     return await getTags('starships', page, name);
-// }
 
 
 /**
  *
  * @param entity
  */
-const mapToFormData = (entity: CreateEntityDto): FormData => {
-    const data = new FormData();
-    Object.entries(entity).forEach(([key, value]) => {
-        if (Array.isArray(value)) {
-            value.forEach((item) => {
-                data.append(key, item)
+export const mapTags = async (entity: Entities) => {
+    const {url, edited, created, ...clear} = entity;
+
+    const entries = await Promise.all(
+        Object
+            .entries(clear)
+            .map(async ([key, value]) => {
+                if (key === 'homeworld') {
+                    return [key, await replaceWithTag(value)];
+                }else if(Array.isArray(value)) {
+                    const data = await Promise.all(value.map(async (item) => await replaceWithTag(item)))
+                    console.log(data)
+                    return [key, data]
+                }
+
+                return [key, value];
             })
-        } else {
-            data.append(key, value)
-        }
-    })
-    return data;
+    );
+
+    return entries
+        .reduce((acc, [key, value]) => {
+            // @ts-ignore
+            acc[key] = value;
+            return acc;
+        }, {} as Omit<Entities, 'url' | 'edited' | 'created'>);
+}
+
+const replaceWithTag = async (url: string) => {
+    const entity = (await axios.get<Entity>(url)).data;
+    return {
+        value: EntityParser.getId(entity),
+        label: entity.title ? entity.title: entity.name,
+    }
 }

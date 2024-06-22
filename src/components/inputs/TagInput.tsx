@@ -2,21 +2,6 @@ import React, {FC, useEffect, useState} from 'react';
 import Select, { InputActionMeta, MultiValue, SingleValue} from 'react-select';
 import {Tag, TagInputProps} from '../../interfaces/IProps';
 
-export const options: Tag[] = [
-    {value: 'Java', label: 'Java'},
-    {value: 'Git', label: 'Git'},
-    {value: 'SQL', label: 'SQL'},
-    {value: 'Docker', label: 'Docker'},
-    {value: 'OOP', label: 'OOP'},
-    {value: 'MySQL', label: 'MySQL'},
-    {value: 'REST API', label: 'REST API'},
-    {value: 'JavaScript', label: 'JavaScript'},
-    {value: 'Node.js', label: 'Node.js'},
-    {value: 'TypeScript', label: 'TypeScript'},
-    {value: 'RegExp', label: 'RegExp'},
-    {value: 'Express.js', label: 'Express.js'},
-];
-
 type SelectedOptionType = SingleValue<Tag> | MultiValue<Tag> | undefined;
 
 const TagInput: FC<TagInputProps> = ({value,options, isMulti, fieldName, handleOnChange, handleOnInputChange}) => {
