@@ -39,8 +39,14 @@ export const TOAST_OPTIONS: ToastOptions = {
  * @param name
  */
 export const getEntities = async (type: EntityType, page: number, name?: string): Promise<Entity[]> => {
-    const res = await getEntitiesPage(type, page, name);
-    return res.results;
+    try {
+        const res = await getEntitiesPage(type, page, name);
+        return res.results;
+    } catch (error) {
+        console.log(error)
+        return []
+    }
+    return []
 }
 
 /**
@@ -109,8 +115,13 @@ export const getTags = async (
     cb: Dispatch<SetStateAction<OptionsOrGroups<Tag, GroupBase<Tag>>>>
 ): Promise<void> => {
     console.log(await getEntities(type, page, name));
-    const tags = (await getEntities(type, page, name)).map((e) => EntityParser.mapToTag(e));
-    cb(tags);
+    try {
+        const tags = (await getEntities(type, page, name)).map((e) => EntityParser.mapToTag(e));
+        cb(tags);
+    }catch (e){
+        console.log(e)
+    }
+
 }
 
 
@@ -120,15 +131,15 @@ export const getTags = async (
  */
 export const mapTags = async (entity: Entity) => {
 
-    const clear: Omit<Entities, 'edited'|'url'|'created'> = entity;
+    const clear: Omit<Entities, 'edited' | 'url' | 'created'> = entity;
     const entries = await Promise.all(
         Object
             .entries(clear)
             .map(async ([key, value]) => {
-                if(Array.isArray(value)) {
+                if (Array.isArray(value)) {
                     const data = await Promise.all(value.map(async (item) => await replaceWithTag(item)))
                     return [key, data]
-                }else if (key === 'homeworld') {
+                } else if (key === 'homeworld') {
                     return [key, await replaceWithTag(value)];
                 }
 
@@ -148,6 +159,6 @@ const replaceWithTag = async (url: string) => {
     const entity = (await axios.get<Entity>(url)).data;
     return {
         value: EntityParser.getId(entity),
-        label: entity.title ? entity.title: entity.name,
+        label: entity.title ? entity.title : entity.name,
     }
 }

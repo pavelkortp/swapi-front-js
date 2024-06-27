@@ -60,7 +60,7 @@ const UpdateVehicleForm: React.FC<UpdateFormProps> = ({onUpdate})=>{
                     handleOnInputChange={(text: string) => {
                         getTags('films', 1, text, setFilmsOptions)
                     }}
-                    options={peopleOptions}
+                    options={filmsOptions}
                     fieldName={'films'}
                     handleOnChange={handleOnChange}
                 />
