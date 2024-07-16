@@ -1,6 +1,10 @@
 import React, {useState} from 'react';
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+// Bootstrap CSS
+import "bootstrap/dist/css/bootstrap.min.css";
+// Bootstrap Bundle JS
+import "bootstrap/dist/js/bootstrap.bundle.min";
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 import {EntityType} from './interfaces/EntityType';

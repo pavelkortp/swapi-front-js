@@ -45,6 +45,10 @@ export class TableProcessor {
         return <td key={link}>{this.fetchLink(link)}</td>
     }
 
+    public static async processLinkColumn(link: string): Promise<React.ReactNode> {
+        return <td key={link}>{await this.processLink(link)}</td>
+    }
+
     /**
      *
      * @param data
@@ -64,6 +68,18 @@ export class TableProcessor {
                     {arr.map((e, index) => {
                         return <li key={e + index}>{this.processLinkColumnFast(e)}</li>
                     })}
+                </ul>
+            </td>
+        );
+    }
+
+    public static async processArrayColumn(arr: string[]): Promise<React.ReactNode> {
+        return (
+            <td>
+                <ul>
+                    {await Promise.all(arr.map(async (e, index) => {
+                        return <li key={e + index}>{await this.processLinkColumn(e)}</li>
+                    }))}
                 </ul>
             </td>
         );
@@ -99,26 +115,26 @@ export class TableProcessor {
         return (<a rel="noreferrer" target="_blank" href={link}>{name}</a>);
     }
 
-    // async processArray(arr: []) {
-    //     const processedArray = await Promise.all(arr.map(async (el) => {
-    //         return <li>{await this.processLink(el)}</li>;
-    //     }));
-    //     return (
-    //         <td>
-    //             <ul>
-    //                 {processedArray}
-    //             </ul>
-    //         </td>
-    //     );
-    // }
+    static async processArray(arr: []) {
+        const processedArray = await Promise.all(arr.map(async (el) => {
+            return <li>{await this.processLink(el)}</li>;
+        }));
+        return (
+            <td>
+                <ul>
+                    {processedArray}
+                </ul>
+            </td>
+        );
+    }
 
-    // async processLink(link: string) {
-    //     const response = await fetch(link);
-    //     const obj = await response.json();
-    //     return (
-    //         <a rel="noreferrer" target="_blank" href={link}>
-    //             {obj.name ? obj.name : obj.title}
-    //         </a>
-    //     );
-    // }
+    static async processLink(link: string) {
+        const response = await fetch(link);
+        const obj = await response.json();
+        return (
+            <a rel="noreferrer" target="_blank" href={link}>
+                {obj.name ? obj.name : obj.title}
+            </a>
+        );
+    }
 }

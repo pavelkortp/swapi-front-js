@@ -6,6 +6,7 @@ import FormsControls from '../FormsControls';
 import TagInput from '../../inputs/TagInput';
 import {getTags} from '../../../services/api.service';
 import {GroupBase, OptionsOrGroups} from 'react-select';
+import DateInput from '../../inputs/DateInput';
 
 const UpdateFilmForm: React.FC<UpdateFormProps> = ({onUpdate}) => {
     const [formData, setFormData] = React.useState<FormData>(new FormData());
@@ -40,7 +41,7 @@ const UpdateFilmForm: React.FC<UpdateFormProps> = ({onUpdate}) => {
                 <TextInput key={'opening_crawl'} fieldName={'opening_crawl'} handleOnChange={handleOnChange}/>
                 <TextInput key={'director'} fieldName={'director'} handleOnChange={handleOnChange}/>
                 <TextInput key={'producer'} fieldName={'producer'} handleOnChange={handleOnChange}/>
-                <TextInput key={'release_date'} fieldName={'release_date'} handleOnChange={handleOnChange}/>
+                <DateInput key={'release_date'} fieldName={'release_date'} handleOnChange={handleOnChange}/>
                 <TagInput
                     isMulti
                     handleOnInputChange={(text: string) => {

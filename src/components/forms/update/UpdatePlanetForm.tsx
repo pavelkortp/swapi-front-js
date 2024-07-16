@@ -24,7 +24,7 @@ const UpdatePlanetForm: React.FC<UpdateFormProps> = ({onUpdate, existedData}) =>
 
     const handleCreate = () => {
         onUpdate(formData);
-        setFormData(new FormData());
+        // setFormData(new FormData());
     }
 
 

@@ -17,7 +17,7 @@ interface EntitiesTableProps {
 const EntitiesTable: React.FC<EntitiesTableProps> = ({entityType, items, onDelete, onEdit}) => {
 
 
-    const getEntityRows = () =>{
+    const getEntityRows = () => {
         return items.map((item: Entity) =>
             <EntityRow key={item.url} entity={item} onDelete={onDelete} onEdit={onEdit}/>)
     }
@@ -32,7 +32,7 @@ const EntitiesTable: React.FC<EntitiesTableProps> = ({entityType, items, onDelet
                         <thead className="table-dark">
                         <tr>
                             <th scope="col">#</th>
-                            {TableProcessor.getTableHeader(items[0])}
+                            {items[0] && TableProcessor.getTableHeader(items[0])}
                         </tr>
                         </thead>
                         <tbody>

@@ -18,9 +18,14 @@ const UpdatePeopleForm: React.FC<UpdateFormProps> = ({onUpdate, existedData}) =>
 
     const handleOnChange = (fieldName: string, value: string | string[] | File[]) => {
         if (Array.isArray(value)) {
-            value.forEach((item) => {
-                formData.append(fieldName, item);
-            })
+            if(value.length > 0){
+                value.forEach((item) => {
+                    formData.append(fieldName, item);
+                })
+            }else {
+                formData.append(fieldName, '');
+                formData.append(fieldName, '');
+            }
         } else {
             formData.set(fieldName, value);
         }
@@ -28,7 +33,7 @@ const UpdatePeopleForm: React.FC<UpdateFormProps> = ({onUpdate, existedData}) =>
 
     const handleUpdate = () => {
         onUpdate(formData);
-        setFormData(new FormData());
+        // setFormData(new FormData());
     }
 
 

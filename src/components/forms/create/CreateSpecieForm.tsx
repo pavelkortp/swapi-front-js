@@ -33,7 +33,7 @@ const CreateSpecieForm: React.FC<CreationFormProps> = ({onCreate})=>{
 
     const handleCreate = () => {
         onCreate(formData);
-        setFormData(new FormData());
+        // setFormData(new FormData());
     }
 
 
@@ -48,12 +48,12 @@ const CreateSpecieForm: React.FC<CreationFormProps> = ({onCreate})=>{
                 <TextInput key={'hair_colors'} fieldName={'hair_colors'} handleOnChange={handleOnChange}/>
                 <TextInput key={'eye_colors'} fieldName={'eye_colors'} handleOnChange={handleOnChange}/>
                 <TextInput key={'average_lifespan'} fieldName={'average_lifespan'} handleOnChange={handleOnChange}/>
+                <TextInput key={'language'} fieldName={'language'} handleOnChange={handleOnChange}/>
                 <TagInput key={'homeworld'}
                           fieldName={'homeworld'}
                           handleOnChange={handleOnChange}
                           handleOnInputChange = {handleOnInputChange}
                           options={homeworldOptions}/>
-                <TextInput key={'language'} fieldName={'language'} handleOnChange={handleOnChange}/>
                 <ImageInput key={'images'} fieldName={'images'} handleOnChange={handleOnChange}/>
             </form>
             <FormsControls onCreate={handleCreate} onReset={()=>console.log('reset')}/>

@@ -20,7 +20,7 @@ const CreateStarshipForm: React.FC<CreationFormProps> = ({onCreate})=>{
 
     const handleCreate = () => {
         onCreate(formData);
-        setFormData(new FormData());
+        // setFormData(new FormData());
     }
 
 

@@ -7,6 +7,7 @@ import {TableProcessor} from '../utils/TableProcessor';
 
 
 interface EntityRowProps {
+    key: any
     entity: Entity;
     onDelete: (id: string) => void;
     onEdit: (entity:Entity) => void;
@@ -18,11 +19,12 @@ export interface EntityRowState {
 
 /**
  * Table wor with entity fields
+ * @param key
  * @param entity data for row
  * @param onDelete action when we need to delete row
  * @param onEdit action when we need to edit row
  */
-export const EntityRow:React.FC<EntityRowProps> = ({entity, onDelete, onEdit})=> {
+export const EntityRow:React.FC<EntityRowProps> = ({ entity, onDelete, onEdit})=> {
 
     const [row, setRow] = useState<EntityRowState>();
     const id = EntityParser.getId(entity);
@@ -40,7 +42,7 @@ export const EntityRow:React.FC<EntityRowProps> = ({entity, onDelete, onEdit})=>
     }
 
     return (
-        <tr>
+        <tr key={entity.url}>
             <th scope="row">{id}</th>
             {Object.values(row).map((data: ReactNode, index) => (
                 <td key={index} data-bs-toggle="dropdown" aria-expanded="false">

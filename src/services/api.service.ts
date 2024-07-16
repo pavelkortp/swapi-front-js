@@ -12,13 +12,6 @@ import {Entities} from '../interfaces/Entities';
 
 export const BASE_URL = 'http://localhost:3000/api/v1';
 // export const BASE_URL = 'https://swapi.dev/api';
-export const LOCAL_PEOPLE_URL = 'http://localhost:3000/api/v1/people';
-export const PEOPLE_URL = 'https://swapi.dev/api/people'; //test
-export const PLANETS_URL = 'https://swapi.dev/api/planets'; //test
-export const FILMS_URL = 'https://swapi.dev/api/films'; //test
-export const STARSHIPS_URL = 'https://swapi.dev/api/starships'; //test
-export const VEHICLES_URL = 'https://swapi.dev/api/vehicles'; //test
-export const SPECIES_URL = 'https://swapi.dev/api/species'; //test
 
 
 export const TOAST_OPTIONS: ToastOptions = {
@@ -46,7 +39,6 @@ export const getEntities = async (type: EntityType, page: number, name?: string)
         console.log(error)
         return []
     }
-    return []
 }
 
 /**
@@ -85,7 +77,7 @@ export const createEntity = (entityType: string, entity: FormData): Promise<Axio
  * @param id
  * @param entity
  */
-export const updateEntity = (entityType: string, id: string, entity: FormData): Promise<AxiosResponse> => {
+export const updateEntity = (entityType: EntityType, id: string, entity: FormData): Promise<AxiosResponse> => {
     return axios.patch(`${BASE_URL}/${entityType}/${id}`, entity);
 }
 
@@ -156,9 +148,17 @@ export const mapTags = async (entity: Entity) => {
 }
 
 const replaceWithTag = async (url: string) => {
-    const entity = (await axios.get<Entity>(url)).data;
-    return {
-        value: EntityParser.getId(entity),
-        label: entity.title ? entity.title : entity.name,
+    try {
+        const entity = (await axios.get<Entity>(url)).data;
+        return {
+            value: EntityParser.getId(entity),
+            label: entity.title ? entity.title : entity.name,
+        }
+    }catch (e){
+        return {
+            value: '0',
+            label: '',
+        }
     }
+
 }

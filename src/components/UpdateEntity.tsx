@@ -26,6 +26,7 @@ const UpdateEntity: React.FC<UpdateEntityProps> = ({ isOpen, onUpdate, onClose, 
             setLoading(true);
             try {
                 const data = await mapTags(entity);
+                console.log(data)
                 setExistedData(data);
             } catch (error) {
                 console.error('Error fetching data:', error);

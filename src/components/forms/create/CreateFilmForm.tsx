@@ -3,6 +3,7 @@ import {CreationFormProps} from '../../../interfaces/IProps';
 import TextInput from '../../inputs/TextInput';
 import ImageInput from '../../inputs/ImageInput';
 import FormsControls from '../FormsControls';
+import DateInput from '../../inputs/DateInput';
 
 const CreateFilmForm: React.FC<CreationFormProps> = ({onCreate}) => {
     const [formData, setFormData] = React.useState<FormData>(new FormData());
@@ -20,7 +21,7 @@ const CreateFilmForm: React.FC<CreationFormProps> = ({onCreate}) => {
 
     const handleCreate = () => {
         onCreate(formData);
-        setFormData(new FormData());
+        // setFormData(new FormData());
     }
 
 
@@ -32,13 +33,11 @@ const CreateFilmForm: React.FC<CreationFormProps> = ({onCreate}) => {
                 <TextInput key={'opening_crawl'} fieldName={'opening_crawl'} handleOnChange={handleOnChange}/>
                 <TextInput key={'director'} fieldName={'director'} handleOnChange={handleOnChange}/>
                 <TextInput key={'producer'} fieldName={'producer'} handleOnChange={handleOnChange}/>
-                <TextInput key={'release_date'} fieldName={'release_date'} handleOnChange={handleOnChange}/>
+                <DateInput key={'release_date'} fieldName={'release_date'} handleOnChange={handleOnChange}/>
                 <ImageInput key={'images'} fieldName={'images'} handleOnChange={handleOnChange}/>
             </form>
             <FormsControls onCreate={handleCreate} onReset={() => console.log('reset')}/>
         </>
-
-
     )
 }
 

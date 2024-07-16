@@ -1,40 +1,45 @@
+import React, { useEffect, useState } from 'react';
 import EntitiesTable from './EntitiesTable';
-import {createEntity, deleteEntity, getEntitiesPage, TOAST_OPTIONS, updateEntity} from '../services/api.service';
+import { createEntity, deleteEntity, getEntitiesPage, TOAST_OPTIONS, updateEntity } from '../services/api.service';
 import PagesBar from './PagesBar';
 import CreateEntity from './CreateEntity';
-import React, {useEffect, useState} from 'react';
-import {EntityType} from '../interfaces/EntityType';
-import {toast} from 'react-toastify';
+import { EntityType } from '../interfaces/EntityType';
+import { toast } from 'react-toastify';
 import UpdateEntity from './UpdateEntity';
-import {Entities} from '../interfaces/Entities';
-import {EntityParser} from '../utils/EntityParser';
+import { EntityParser } from '../utils/EntityParser';
 import Entity from '../interfaces/Entity';
+import { ClipLoader } from 'react-spinners'; // Ensure this import is present
 
 interface MainProps {
     entityType: EntityType;
 }
 
-
-const Main: React.FC<MainProps> = ({entityType}) => {
+const Main: React.FC<MainProps> = ({ entityType }) => {
     const [page, setPage] = useState<number>(1);
     const [entities, setEntities] = useState<Entity[]>([]);
     const [count, setCount] = useState<number>(0);
     const [createFormVisible, setCreateFormVisible] = useState<boolean>(false);
     const [updateFormVisible, setUpdateFormVisible] = useState<boolean>(false);
     const [selectedEntity, setSelectedEntity] = useState<Entity>();
+    const [loading, setLoading] = useState(true); // Loading state
 
     const setItems = (page: number) => {
+        setLoading(true); // Set loading to true when fetching data
         getEntitiesPage(entityType, page)
             .then(res => {
+                if(res.results.length==0) return;
                 setEntities(res.results);
                 setCount(res.count);
             })
+            .catch((e)=>{
+                alert('no entities found');
+            })
+            .finally(() => setLoading(false)); // Set loading to false when data is fetched
     }
 
     useEffect(() => {
         setItems(page);
     }, [page, entityType]);
-
 
     const handleDelete = (id: string) => {
         deleteEntity(entityType, id)
@@ -81,13 +86,17 @@ const Main: React.FC<MainProps> = ({entityType}) => {
             });
     }
 
-    const onEdit = (e: Entity) =>{
+    const onEdit = (e: Entity) => {
         setUpdateFormVisible(true);
         setSelectedEntity(e);
     }
 
-    if(!entities[0]){
-        return <h1>BEDA</h1>
+    if (loading) {
+        return (
+            <div className="spinner-container">
+                <ClipLoader color="#000000" size={50} />
+            </div>
+        );
     }
 
     return (
@@ -98,16 +107,15 @@ const Main: React.FC<MainProps> = ({entityType}) => {
                 onDelete={handleDelete}
                 onEdit={onEdit}
             />
-            <br></br>
-            <PagesBar onClick={setPage} count={count}/>
-            <br></br>
+            <br />
+            <PagesBar onClick={setPage} count={count} />
+            <br />
             <button
                 className="btn btn-primary"
                 onClick={() => setCreateFormVisible(true)}
             >
                 Create entity
             </button>
-
 
             <CreateEntity
                 isOpen={createFormVisible}
@@ -121,9 +129,8 @@ const Main: React.FC<MainProps> = ({entityType}) => {
                 entityType={entityType}
                 onUpdate={handleUpdate}
                 isOpen={updateFormVisible}
-                onClose={()=> setUpdateFormVisible(false)}
+                onClose={() => setUpdateFormVisible(false)}
             />
-
         </main>
     )
 }
