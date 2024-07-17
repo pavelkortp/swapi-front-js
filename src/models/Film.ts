@@ -1,4 +1,6 @@
-export class Film {
+import {BaseEntity} from './BaseEntity';
+
+export class Film extends BaseEntity {
     constructor(
         public title: string,
         public episode_id: string,
@@ -16,5 +18,6 @@ export class Film {
         public edited: string,
         public url: string
     ) {
+        super(edited, created, url, images);
     }
 }

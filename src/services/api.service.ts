@@ -1,6 +1,5 @@
 import axios, {AxiosResponse} from 'axios';
 import {SWAPIResponsePage} from '../interfaces/SWAPIResponse';
-import Entity from '../interfaces/Entity';
 import {Tag} from '../interfaces/IProps';
 import {EntityParser} from '../utils/EntityParser';
 import {Bounce, ToastOptions} from 'react-toastify';
@@ -8,6 +7,7 @@ import {EntityType} from '../interfaces/EntityType';
 import {GroupBase, OptionsOrGroups} from 'react-select';
 import {Dispatch, SetStateAction} from 'react';
 import {Entities} from '../interfaces/Entities';
+import {BaseEntity} from '../models/BaseEntity';
 
 
 export const BASE_URL = 'http://localhost:3000/api/v1';
@@ -31,9 +31,9 @@ export const TOAST_OPTIONS: ToastOptions = {
  * @param page
  * @param name
  */
-export const getEntities = async (type: EntityType, page: number, name?: string): Promise<Entity[]> => {
+export const getEntities = async <E extends BaseEntity>(type: EntityType, page: number, name?: string): Promise<E[]> => {
     try {
-        const res = await getEntitiesPage(type, page, name);
+        const res = await getEntitiesPage<E>(type, page, name);
         return res.results;
     } catch (error) {
         console.log(error)
@@ -47,9 +47,9 @@ export const getEntities = async (type: EntityType, page: number, name?: string)
  * @param page
  * @param name
  */
-export const getEntitiesPage = async (type: EntityType, page: number, name?: string): Promise<SWAPIResponsePage> => {
+export const getEntitiesPage = async<E extends BaseEntity> (type: EntityType, page: number, name?: string): Promise<SWAPIResponsePage<E>> => {
     const response = await axios
-        .get<SWAPIResponsePage>(`${BASE_URL}/${type}/?page=${page}${name ? `&name=${name}` : ''}`);
+        .get<SWAPIResponsePage<E>>(`${BASE_URL}/${type}/?page=${page}${name ? `&name=${name}` : ''}`);
     return response.data;
 }
 
@@ -106,7 +106,6 @@ export const getTags = async (
     name: string,
     cb: Dispatch<SetStateAction<OptionsOrGroups<Tag, GroupBase<Tag>>>>
 ): Promise<void> => {
-    console.log(await getEntities(type, page, name));
     try {
         const tags = (await getEntities(type, page, name)).map((e) => EntityParser.mapToTag(e));
         cb(tags);
@@ -121,7 +120,7 @@ export const getTags = async (
  *
  * @param entity
  */
-export const mapTags = async (entity: Entity) => {
+export const mapTags = async (entity: BaseEntity) => {
 
     const clear: Omit<Entities, 'edited' | 'url' | 'created'> = entity;
     const entries = await Promise.all(
@@ -147,11 +146,12 @@ export const mapTags = async (entity: Entity) => {
         }, {} as Omit<Entities, 'url' | 'edited' | 'created'>);
 }
 
-const replaceWithTag = async (url: string) => {
+const replaceWithTag = async<E extends BaseEntity> (url: string) => {
     try {
-        const entity = (await axios.get<Entity>(url)).data;
+        const entity = (await axios.get<E>(url)).data;
         return {
             value: EntityParser.getId(entity),
+            // @ts-ignore
             label: entity.title ? entity.title : entity.name,
         }
     }catch (e){

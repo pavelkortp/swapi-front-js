@@ -1,20 +1,25 @@
 import React from 'react';
-import {Tag, UpdateFormProps} from '../../../interfaces/IProps';
-import TextInput from '../../inputs/TextInput';
-import ImageInput from '../../inputs/ImageInput';
-import FormsControls from '../FormsControls';
-import TagInput from '../../inputs/TagInput';
-import {getTags} from '../../../services/api.service';
+import {CreateFilmDto} from '../../dto/CreateFilmDto';
 import {GroupBase, OptionsOrGroups} from 'react-select';
-import DateInput from '../../inputs/DateInput';
+import {FormProps, Tag} from '../../interfaces/IProps';
+import TextInput from '../inputs/TextInput';
+import DateInput from '../inputs/DateInput';
+import TagInput from '../inputs/TagInput';
+import {getTags} from '../../services/api.service';
+import ImageInput from '../inputs/ImageInput';
+import FormsControls from './FormsControls';
 
-const UpdateFilmForm: React.FC<UpdateFormProps> = ({onUpdate}) => {
+const FilmForm:React.FC<FormProps<CreateFilmDto>> = ({onSave, value})=>{
     const [formData, setFormData] = React.useState<FormData>(new FormData());
     const [peopleOptions, setPeopleOptions] = React.useState<OptionsOrGroups<Tag, GroupBase<Tag>>>([]);
     const [planetsOptions, setPlanetsOptions] = React.useState<OptionsOrGroups<Tag, GroupBase<Tag>>>([]);
     const [starshipsOptions, setStarshipsOptions] = React.useState<OptionsOrGroups<Tag, GroupBase<Tag>>>([]);
     const [vehiclesOptions, setVehiclesOptions] = React.useState<OptionsOrGroups<Tag, GroupBase<Tag>>>([]);
     const [speciesOptions, setSpeciesOptions] = React.useState<OptionsOrGroups<Tag, GroupBase<Tag>>>([]);
+
+    const handleOnSave = ()=>{
+        onSave(formData);
+    }
 
     const handleOnChange = (fieldName: string, value: string | string[] | File[]) => {
         if (Array.isArray(value)) {
@@ -26,24 +31,18 @@ const UpdateFilmForm: React.FC<UpdateFormProps> = ({onUpdate}) => {
         }
     }
 
-
-    const handleCreate = () => {
-        onUpdate(formData);
-        setFormData(new FormData());
-    }
-
-
     return (
         <>
             <form id="create-record-form">
-                <TextInput key={'title'} fieldName={'title'} handleOnChange={handleOnChange}/>
-                <TextInput key={'episode_id'} fieldName={'episode_id'} handleOnChange={handleOnChange}/>
-                <TextInput key={'opening_crawl'} fieldName={'opening_crawl'} handleOnChange={handleOnChange}/>
-                <TextInput key={'director'} fieldName={'director'} handleOnChange={handleOnChange}/>
-                <TextInput key={'producer'} fieldName={'producer'} handleOnChange={handleOnChange}/>
-                <DateInput key={'release_date'} fieldName={'release_date'} handleOnChange={handleOnChange}/>
+                <TextInput value={value?.title} fieldName={'title'} handleOnChange={handleOnChange}/>
+                <TextInput value={value?.episode_id} fieldName={'episode_id'} handleOnChange={handleOnChange}/>
+                <TextInput value={value?.opening_crawl} fieldName={'opening_crawl'} handleOnChange={handleOnChange}/>
+                <TextInput value={value?.director} fieldName={'director'} handleOnChange={handleOnChange}/>
+                <TextInput value={value?.producer} fieldName={'producer'} handleOnChange={handleOnChange}/>
+                <DateInput value={value?.release_date} fieldName={'release_date'} handleOnChange={handleOnChange}/>
                 <TagInput
                     isMulti
+                    value={value?.characters}
                     handleOnInputChange={(text: string) => {
                         getTags('people', 1, text, setPeopleOptions)
                     }}
@@ -53,6 +52,7 @@ const UpdateFilmForm: React.FC<UpdateFormProps> = ({onUpdate}) => {
                 />
                 <TagInput
                     isMulti
+                    value={value?.planets}
                     handleOnInputChange={(text: string) => {
                         getTags('planets', 1, text, setPlanetsOptions)
                     }}
@@ -61,6 +61,7 @@ const UpdateFilmForm: React.FC<UpdateFormProps> = ({onUpdate}) => {
                     handleOnChange={handleOnChange}
                 />
                 <TagInput
+                    value={value?.starships}
                     isMulti
                     handleOnInputChange={(text: string) => {
                         getTags('starships', 1, text, setStarshipsOptions)
@@ -71,6 +72,7 @@ const UpdateFilmForm: React.FC<UpdateFormProps> = ({onUpdate}) => {
                 />
 
                 <TagInput
+                    value={value?.vehicles}
                     isMulti
                     handleOnInputChange={(text: string) => {
                         getTags('vehicles', 1, text, setVehiclesOptions)
@@ -81,6 +83,7 @@ const UpdateFilmForm: React.FC<UpdateFormProps> = ({onUpdate}) => {
                 />
 
                 <TagInput
+                    value={value?.species}
                     isMulti
                     handleOnInputChange={(text: string) => {
                         getTags('species', 1, text, setSpeciesOptions)
@@ -92,12 +95,9 @@ const UpdateFilmForm: React.FC<UpdateFormProps> = ({onUpdate}) => {
 
                 <ImageInput key={'images'} fieldName={'images'} handleOnChange={handleOnChange}/>
             </form>
-            <FormsControls onCreate={handleCreate} onReset={() => console.log('reset')}/>
+            <FormsControls onCreate={handleOnSave} onReset={() => console.log('reset')}/>
         </>
-
-
     )
 }
 
-export default UpdateFilmForm;
-
+export default FilmForm;

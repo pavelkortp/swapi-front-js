@@ -26,7 +26,7 @@ const TagInput: FC<TagInputProps> = ({value,options, isMulti, fieldName, handleO
     }
 
     return (
-        <div className="mb-3">
+        <div key={fieldName} className="mb-3">
             <label htmlFor={fieldName}>Entity's {fieldName}</label>
             <Select
                 value={selectedOptions}

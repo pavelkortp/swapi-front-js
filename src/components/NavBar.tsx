@@ -1,15 +1,33 @@
 import React from 'react';
 import {EntityType} from '../interfaces/EntityType';
+import {People} from '../models/People';
+import {Vehicle} from '../models/Vehicle';
+import {Planet} from '../models/Planet';
+import {Starship} from '../models/Starship';
+import {Specie} from '../models/Specie';
+import {Film} from '../models/Film';
+import {Entities} from '../interfaces/Entities';
+import {Type} from '../interfaces/type.interface';
+import {BaseEntity} from '../models/BaseEntity';
 
 interface NavBarProps {
     onEntity: (type: EntityType) => void;
 }
 
+export const entityTypes = {
+    films: Film,
+    people: People,
+    planets: Planet,
+    species: Specie,
+    starships: Starship,
+    vehicles: Vehicle,
+}
+
 const NavBar: React.FC<NavBarProps> = ({onEntity}) => {
     const setEntity = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
-        const entity = event.currentTarget.textContent!.toLowerCase() as EntityType;
-        onEntity(entity);
+        const type = event.currentTarget.textContent!.toLowerCase() as EntityType;
+        onEntity(type);
     };
 
     return (
@@ -24,10 +42,12 @@ const NavBar: React.FC<NavBarProps> = ({onEntity}) => {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item">
-                            <a className="nav-link" rel="noreferrer" target="_blank" href="http://localhost:3000/documentation">Documentation</a>
+                            <a className="nav-link" rel="noreferrer" target="_blank"
+                               href="http://localhost:3000/documentation">Documentation</a>
                         </li>
                         <li className="nav-item dropdown">
-                            <a className="nav-link dropdown-toggle" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a className="nav-link dropdown-toggle" href="/" role="button" data-bs-toggle="dropdown"
+                               aria-expanded="false">
                                 Entities
                             </a>
                             <ul className="dropdown-menu">
@@ -44,10 +64,12 @@ const NavBar: React.FC<NavBarProps> = ({onEntity}) => {
                                     <button type="button" className="dropdown-item" onClick={setEntity}>Planets</button>
                                 </li>
                                 <li>
-                                    <button type="button" className="dropdown-item" onClick={setEntity}>Starships</button>
+                                    <button type="button" className="dropdown-item" onClick={setEntity}>Starships
+                                    </button>
                                 </li>
                                 <li>
-                                    <button type="button" className="dropdown-item" onClick={setEntity}>Vehicles</button>
+                                    <button type="button" className="dropdown-item" onClick={setEntity}>Vehicles
+                                    </button>
                                 </li>
                             </ul>
                         </li>

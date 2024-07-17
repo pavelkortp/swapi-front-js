@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal from './Modal';
 import {EntityType} from '../interfaces/EntityType';
-import {CREATE_FORM} from './forms/create/CreateForm';
+import {FORMS} from './forms/Forms';
 
 interface CreateEntityProps {
     isOpen: boolean;
@@ -12,12 +12,12 @@ interface CreateEntityProps {
 
 const CreateEntity: React.FC<CreateEntityProps> = ({isOpen, onCreate, onClose, entityType}) => {
 
-    const eForm = CREATE_FORM[entityType];
+    const eForm = FORMS[entityType];
 
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
             <h2>Create a New Record</h2>
-            {React.createElement(eForm, {onCreate})}
+            {React.createElement(eForm, {onSave: onCreate})}
         </Modal>
     );
 }

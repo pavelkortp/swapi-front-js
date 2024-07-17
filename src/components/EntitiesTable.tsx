@@ -1,24 +1,24 @@
 import React from 'react';
 import EntityRow from './EntityRow';
 import '../styles/entityTable.css'
-import Entity from '../interfaces/Entity';
 import {TableProcessor} from '../utils/TableProcessor';
 import {EntityType} from '../interfaces/EntityType';
+import {BaseEntity} from '../models/BaseEntity';
 
 export const ITEMS_PER_PAGE = 10;
 
 interface EntitiesTableProps {
     entityType: EntityType;
-    items: Entity[];
+    items: BaseEntity[];
     onDelete: (id: string) => void;
-    onEdit: (entity: Entity) => void;
+    onEdit: (entity: BaseEntity) => void;
 }
 
 const EntitiesTable: React.FC<EntitiesTableProps> = ({entityType, items, onDelete, onEdit}) => {
 
 
     const getEntityRows = () => {
-        return items.map((item: Entity) =>
+        return items.map((item: BaseEntity) =>
             <EntityRow key={item.url} entity={item} onDelete={onDelete} onEdit={onEdit}/>)
     }
 

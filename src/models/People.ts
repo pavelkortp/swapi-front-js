@@ -1,8 +1,9 @@
+import {BaseEntity} from './BaseEntity';
 
 /**
  *
  */
-export class People{
+export class People extends BaseEntity{
     constructor(
         public name: string,
         public height: string,
@@ -21,5 +22,7 @@ export class People{
         public created: string,
         public edited: string,
         public url: string
-    ) {}
+    ) {
+        super(edited, created, url, images);
+    }
 }

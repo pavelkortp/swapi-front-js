@@ -1,8 +1,8 @@
 import React from 'react';
 import {Entities} from '../interfaces/Entities';
-import Entity from '../interfaces/Entity';
 import {EntityRowState} from '../components/EntityRow';
 import {BASE_URL} from '../services/api.service';
+import {BaseEntity} from '../models/BaseEntity';
 
 /**
  * Companion object to process table data
@@ -13,7 +13,7 @@ export class TableProcessor {
      *
      * @param entity
      */
-    public static getTableHeader(entity: Entity) {
+    public static getTableHeader(entity: BaseEntity) {
         return (<>
             {Object.keys(entity).map((key: string) => <th key={key} scope="col">{key}</th>)}
         </>)
@@ -89,7 +89,7 @@ export class TableProcessor {
      *
      * @param entity
      */
-    public static getProcessedTableRow(entity: Entity):EntityRowState {
+    public static getProcessedTableRow(entity: BaseEntity):EntityRowState {
         const processedData: EntityRowState = {};
         Object.keys(entity).forEach((key) => {
             const f: string | string[] = entity[key as keyof Entities];

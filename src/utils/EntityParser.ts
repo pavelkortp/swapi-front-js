@@ -1,6 +1,7 @@
-import Entity from '../interfaces/Entity';
+
 import {Tag} from '../interfaces/IProps';
 import {EntityType} from '../interfaces/EntityType';
+import {BaseEntity} from '../models/BaseEntity';
 
 /**
  * Companion object to parse entity, and get data from there
@@ -12,7 +13,7 @@ export class EntityParser {
      * @param entity
      * @return string entity type (people, planets, ect...)
      */
-    public static getType(entity: Entity): EntityType {
+    public static getType(entity: BaseEntity): EntityType {
         return entity.url.split('/')[5] as EntityType;
     }
 
@@ -21,7 +22,7 @@ export class EntityParser {
      * @param entity
      * @return string number.
      */
-    public static getId(entity: Entity): string {
+    public static getId(entity: BaseEntity): string {
         return entity.url.match(/(\d+)\/$/)![1];
     }
 
@@ -29,8 +30,9 @@ export class EntityParser {
      *
      * @param e
      */
-    public static mapToTag(e: Entity): Tag {
+    public static mapToTag(e: BaseEntity): Tag {
         return {
+            // @ts-ignore
             label: (e.title ? e.title : e.name!) as string,
             value: this.getId(e)
         }
@@ -46,7 +48,7 @@ export class EntityParser {
             })
     }
 
-    public static getEntityCreationFields(entity: Entity): string[] {
+    public static getEntityCreationFields(entity: BaseEntity): string[] {
         const fields =  Object
             .entries(entity)
             .filter(([key, value]) => !Array.isArray(value))

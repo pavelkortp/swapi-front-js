@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, {ClassType, useEffect, useState} from 'react';
 import EntitiesTable from './EntitiesTable';
 import { createEntity, deleteEntity, getEntitiesPage, TOAST_OPTIONS, updateEntity } from '../services/api.service';
 import PagesBar from './PagesBar';
 import CreateEntity from './CreateEntity';
-import { EntityType } from '../interfaces/EntityType';
 import { toast } from 'react-toastify';
 import UpdateEntity from './UpdateEntity';
 import { EntityParser } from '../utils/EntityParser';
-import Entity from '../interfaces/Entity';
-import { ClipLoader } from 'react-spinners'; // Ensure this import is present
+
+import { ClipLoader } from 'react-spinners';
+import {BaseEntity} from '../models/BaseEntity';
+import {EntityType} from '../interfaces/EntityType';
 
 interface MainProps {
     entityType: EntityType;
@@ -16,11 +17,11 @@ interface MainProps {
 
 const Main: React.FC<MainProps> = ({ entityType }) => {
     const [page, setPage] = useState<number>(1);
-    const [entities, setEntities] = useState<Entity[]>([]);
+    const [entities, setEntities] = useState<BaseEntity[]>([]);
     const [count, setCount] = useState<number>(0);
     const [createFormVisible, setCreateFormVisible] = useState<boolean>(false);
     const [updateFormVisible, setUpdateFormVisible] = useState<boolean>(false);
-    const [selectedEntity, setSelectedEntity] = useState<Entity>();
+    const [selectedEntity, setSelectedEntity] = useState<BaseEntity>();
     const [loading, setLoading] = useState(true); // Loading state
 
     const setItems = (page: number) => {
@@ -86,7 +87,7 @@ const Main: React.FC<MainProps> = ({ entityType }) => {
             });
     }
 
-    const onEdit = (e: Entity) => {
+    const onEdit = (e: BaseEntity) => {
         setUpdateFormVisible(true);
         setSelectedEntity(e);
     }

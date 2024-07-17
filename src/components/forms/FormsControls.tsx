@@ -7,7 +7,7 @@ const FormsControls:React.FC<FormControlsProps> = ({onCreate, onReset})=>{
         <div className="d-grid gap-2">
             <button className="btn btn-outline-success" type="button" key="create"
                     onClick={() => onCreate()}>
-                <b>Create</b>
+                <b>Save</b>
             </button>
             <button className="btn btn-danger" type="button" key="reset"
                     onClick={() => {

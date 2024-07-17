@@ -1,6 +1,7 @@
-import {BaseEntity} from './BaseEntity';
+import {MultiValue} from 'react-select';
+import {Tag} from '../interfaces/IProps';
 
-export class Vehicle extends BaseEntity{
+export class CreateVehicleDto{
     constructor(
         public name: string,
         public model: string,
@@ -13,13 +14,9 @@ export class Vehicle extends BaseEntity{
         public cargo_capacity: string,
         public consumables: string,
         public vehicle_class: string,
-        public images: string [],
-        public pilots: string[],
-        public films: string[],
-        public created: string,
-        public edited: string,
-        public url: string
+        public images: File[],
+        public pilots: MultiValue<Tag>,
+        public films: MultiValue<Tag>,
     ) {
-        super(edited, created, url, images);
     }
 }

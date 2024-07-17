@@ -3,7 +3,7 @@ import {HTMLInputProps} from '../../interfaces/IProps';
 
 
 export const DateInput: React.FC<HTMLInputProps> = ({value, fieldName, handleOnChange}) =>{
-    const [val, setVal] = useState<string|undefined>(value);
+    const [val, setVal] = useState<string|undefined>(value?.substring(0,10));
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>{
         handleOnChange(fieldName, e.target.value);

@@ -1,5 +1,6 @@
+import {BaseEntity} from './BaseEntity';
 
-export class Planet{
+export class Planet extends BaseEntity{
     constructor(
         public name: string,
         public rotation_period: string,
@@ -16,5 +17,7 @@ export class Planet{
         public created: string,
         public edited: string,
         public url: string
-    ) {}
+    ) {
+        super(edited, created, url, images);
+    }
 }

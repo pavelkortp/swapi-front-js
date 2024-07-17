@@ -1,13 +1,14 @@
 import React from 'react';
-import {Tag, UpdateFormProps} from '../../../interfaces/IProps';
-import TextInput from '../../inputs/TextInput';
-import ImageInput from '../../inputs/ImageInput';
-import FormsControls from '../FormsControls';
-import TagInput from '../../inputs/TagInput';
+import {CreatePlanetDto} from '../../dto/CreatePlanetDto';
 import {GroupBase, OptionsOrGroups} from 'react-select';
-import {getTags} from '../../../services/api.service';
+import {Tag} from '../../interfaces/IProps';
+import TextInput from '../inputs/TextInput';
+import TagInput from '../inputs/TagInput';
+import {getTags} from '../../services/api.service';
+import ImageInput from '../inputs/ImageInput';
+import FormsControls from './FormsControls';
 
-const UpdatePlanetForm: React.FC<UpdateFormProps> = ({onUpdate, existedData}) => {
+const PlanetForm: React.FC<FormProps<CreatePlanetDto>> = ({onSave, value}) => {
     const [formData, setFormData] = React.useState<FormData>(new FormData());
     const [filmsOptions, setFilmsOptions] = React.useState<OptionsOrGroups<Tag, GroupBase<Tag>>>([]);
     const [peopleOptions, setPeopleOptions] = React.useState<OptionsOrGroups<Tag, GroupBase<Tag>>>([]);
@@ -23,33 +24,32 @@ const UpdatePlanetForm: React.FC<UpdateFormProps> = ({onUpdate, existedData}) =>
 
 
     const handleCreate = () => {
-        onUpdate(formData);
-        // setFormData(new FormData());
+        onSave(formData);
     }
 
 
     return (
         <>
             <form id="create-record-form">
-                <TextInput key={'name'} value={existedData.name} fieldName={'name'} handleOnChange={handleOnChange}/>
-                <TextInput key={'rotation_period'} value={existedData.rotation_period} fieldName={'rotation_period'}
+                <TextInput value={value?.name} fieldName={'name'} handleOnChange={handleOnChange}/>
+                <TextInput key={'rotation_period'} value={value?.rotation_period} fieldName={'rotation_period'}
                            handleOnChange={handleOnChange}/>
-                <TextInput key={'orbital_period'} value={existedData.orbital_period} fieldName={'orbital_period'}
+                <TextInput value={value?.orbital_period} fieldName={'orbital_period'}
                            handleOnChange={handleOnChange}/>
-                <TextInput key={'diameter'} value={existedData.diameter} fieldName={'diameter'}
+                <TextInput value={value?.diameter} fieldName={'diameter'}
                            handleOnChange={handleOnChange}/>
-                <TextInput key={'climate'} value={existedData.climate} fieldName={'climate'}
+                <TextInput value={value?.climate} fieldName={'climate'}
                            handleOnChange={handleOnChange}/>
-                <TextInput key={'gravity'} value={existedData.gravity} fieldName={'gravity'}
+                <TextInput value={value?.gravity} fieldName={'gravity'}
                            handleOnChange={handleOnChange}/>
-                <TextInput key={'terrain'} value={existedData.terrain} fieldName={'terrain'}
+                <TextInput value={value?.terrain} fieldName={'terrain'}
                            handleOnChange={handleOnChange}/>
-                <TextInput key={'surface_water'} value={existedData.surface_water} fieldName={'surface_water'}
+                <TextInput value={value?.surface_water} fieldName={'surface_water'}
                            handleOnChange={handleOnChange}/>
-                <TextInput key={'population'} value={existedData.popoulation} fieldName={'population'}
+                <TextInput value={value?.population} fieldName={'population'}
                            handleOnChange={handleOnChange}/>
                 <TagInput
-                    value={existedData.residents}
+                    value={value?.residents}
                     isMulti
                     handleOnInputChange={(text: string) => {
                         getTags('people', 1, text, setPeopleOptions)
@@ -59,7 +59,7 @@ const UpdatePlanetForm: React.FC<UpdateFormProps> = ({onUpdate, existedData}) =>
                     handleOnChange={handleOnChange}
                 />
                 <TagInput
-                    value={existedData.films}
+                    value={value?.films}
                     isMulti
                     handleOnInputChange={(text: string) => {
                         getTags('films', 1, text, setFilmsOptions)
@@ -68,13 +68,11 @@ const UpdatePlanetForm: React.FC<UpdateFormProps> = ({onUpdate, existedData}) =>
                     fieldName={'films'}
                     handleOnChange={handleOnChange}
                 />
-                <ImageInput key={'images'} fieldName={'images'} handleOnChange={handleOnChange}/>
+                <ImageInput fieldName={'images'} handleOnChange={handleOnChange}/>
             </form>
             <FormsControls onCreate={handleCreate} onReset={() => console.log('reset')}/>
         </>
-
-
     )
 }
 
-export default UpdatePlanetForm;
+export default PlanetForm;

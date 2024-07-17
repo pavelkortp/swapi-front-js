@@ -1,11 +1,11 @@
 import {GroupBase, MultiValue, OptionsOrGroups, SingleValue} from 'react-select';
-import {Entities} from './Entities';
 
 export interface HTMLInputProps {
     value?: string;
     fieldName: string;
     handleOnChange: (fieldName: string, value: string) => void;
 }
+
 
 export interface Tag {
     value: string;
@@ -32,6 +32,11 @@ export interface CreationFormProps {
 export interface UpdateFormProps {
     onUpdate: (data: FormData) => void;
     existedData: any;
+}
+
+export interface FormProps<E>{
+    onSave: (data:FormData)=>void;
+    value?: E;
 }
 
 export interface FormControlsProps {

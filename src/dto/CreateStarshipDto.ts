@@ -1,6 +1,7 @@
-import {BaseEntity} from './BaseEntity';
+import {MultiValue} from 'react-select';
+import {Tag} from '../interfaces/IProps';
 
-export class Starship extends BaseEntity{
+export class CreateStarshipDto{
     constructor(
         public name: string,
         public model: string,
@@ -11,16 +12,13 @@ export class Starship extends BaseEntity{
         public crew: string,
         public passengers: string,
         public cargo_capacity: string,
+        public consumables: string,
         public hyperdrive_rating: string,
         public MGLT: string,
         public starship_class: string,
-        public images: string [],
-        public pilots: string [],
-        public films: string[],
-        public created: string,
-        public edited: string,
-        public url: string
+        public images: File[],
+        public pilots: MultiValue<Tag>,
+        public films: MultiValue<Tag>,
     ) {
-        super(edited, created, url, images);
     }
 }

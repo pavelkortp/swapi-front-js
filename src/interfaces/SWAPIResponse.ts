@@ -1,19 +1,20 @@
-import Entity from './Entity';
+import {BaseEntity} from '../models/BaseEntity';
+
 
 /**
  * Api response on GET/?page=
  */
-export interface SWAPIResponsePage {
-    results: Entity[];
+export interface SWAPIResponsePage<E extends BaseEntity> {
+    results: E[];
     next: string | null;
     previous: string | null;
     count: number;
 }
 
 
-export interface SWAPResponseError {
+export interface SWAPIResponseError {
     message: string[];
 }
 
 
-export declare type SWAPIResponse = SWAPIResponsePage | SWAPResponseError;
+export declare type SWAPIResponse<E extends BaseEntity> = SWAPIResponsePage<E> | SWAPIResponseError;

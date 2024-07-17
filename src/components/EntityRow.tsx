@@ -1,16 +1,16 @@
 import React, {ReactNode, useEffect, useState} from 'react';
-import Entity from '../interfaces/Entity';
 import {RiDeleteBin6Fill} from 'react-icons/ri';
 import {MdEdit} from 'react-icons/md';
 import {EntityParser} from '../utils/EntityParser';
 import {TableProcessor} from '../utils/TableProcessor';
+import {BaseEntity} from '../models/BaseEntity';
 
 
 interface EntityRowProps {
     key: any
-    entity: Entity;
+    entity: BaseEntity;
     onDelete: (id: string) => void;
-    onEdit: (entity:Entity) => void;
+    onEdit: (entity:BaseEntity) => void;
 }
 
 export interface EntityRowState {

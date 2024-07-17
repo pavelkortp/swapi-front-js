@@ -1,6 +1,7 @@
-import {BaseEntity} from './BaseEntity';
+import {MultiValue, SingleValue} from 'react-select';
+import {Tag} from '../interfaces/IProps';
 
-export class Specie extends BaseEntity{
+export class CreateSpecieDto{
     constructor(
         public name: string,
         public classification: string,
@@ -10,15 +11,11 @@ export class Specie extends BaseEntity{
         public hair_colors: string,
         public eye_colors: string,
         public average_lifespan: string,
-        public homeworld: string,
+        public homeworld: SingleValue<Tag>,
         public language: string,
-        public images: string [],
-        public people: string [],
-        public films: string[],
-        public created: string,
-        public edited: string,
-        public url: string
+        public images: File[],
+        public people: MultiValue<Tag>,
+        public films: MultiValue<Tag>,
     ) {
-        super(edited, created, url, images);
     }
 }
