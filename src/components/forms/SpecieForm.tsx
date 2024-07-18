@@ -8,7 +8,6 @@ import {getTags} from '../../services/api.service';
 import ImageInput from '../inputs/ImageInput';
 import FormsControls from './FormsControls';
 import {handleOnChange} from './Forms';
-import {log} from 'node:util';
 
 const SpecieForm: React.FC<FormProps<CreateSpecieDto>> = ({onSave, value})=>{
     const [formData, setFormData] = React.useState<FormData>(new FormData());
@@ -18,7 +17,6 @@ const SpecieForm: React.FC<FormProps<CreateSpecieDto>> = ({onSave, value})=>{
 
 
     const onChange = ( fieldName: string, value: string | string[] | File[])=>{
-        alert(`${fieldName} ${value}`)
         handleOnChange(formData, fieldName, value);
     }
 
