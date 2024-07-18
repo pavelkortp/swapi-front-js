@@ -7,6 +7,7 @@ import ImageInput from '../inputs/ImageInput';
 import FormsControls from './FormsControls';
 import {CreatePeopleDto} from '../../dto/CreatePeopleDto';
 import {Tag} from '../../interfaces/IProps';
+import {handleOnChange} from './Forms';
 
 const PeopleForm: React.FC<FormProps<CreatePeopleDto>> = ({onSave, value}) => {
     const [formData, setFormData] = React.useState<FormData>(new FormData());
@@ -20,33 +21,25 @@ const PeopleForm: React.FC<FormProps<CreatePeopleDto>> = ({onSave, value}) => {
         onSave(formData);
     }
 
-    const handleOnChange = (fieldName: string, value: string | string[] | File[]) => {
-        if (Array.isArray(value)) {
-            if(value.length > 0){
-                value.forEach((item) => {
-                    formData.append(fieldName, item);
-                })
-            }
-        } else {
-            formData.set(fieldName, value);
-        }
+    const onChange = ( fieldName: string, value: string | string[] | File[])=>{
+        handleOnChange(formData, fieldName, value);
     }
 
     return (
         <>
             <form id="update-record-form">
-                <TextInput fieldName={'name'} value={value?.name} handleOnChange={handleOnChange}/>
-                <TextInput fieldName={'birth_year'} value={value?.birth_year} handleOnChange={handleOnChange}/>
-                <TextInput fieldName={'eye_color'} value={value?.eye_color} handleOnChange={handleOnChange}/>
-                <TextInput fieldName={'gender'} value={value?.gender} handleOnChange={handleOnChange}/>
-                <TextInput fieldName={'height'} value={value?.height} handleOnChange={handleOnChange}/>
-                <TextInput fieldName={'mass'} value={value?.mass} handleOnChange={handleOnChange}/>
-                <TextInput fieldName={'skin_color'} value={value?.skin_color} handleOnChange={handleOnChange}/>
-                <TextInput fieldName={'hair_color'} value={value?.hair_color} handleOnChange={handleOnChange}/>
+                <TextInput fieldName={'name'} value={value?.name} handleOnChange={onChange}/>
+                <TextInput fieldName={'birth_year'} value={value?.birth_year} handleOnChange={onChange}/>
+                <TextInput fieldName={'eye_color'} value={value?.eye_color} handleOnChange={onChange}/>
+                <TextInput fieldName={'gender'} value={value?.gender} handleOnChange={onChange}/>
+                <TextInput fieldName={'height'} value={value?.height} handleOnChange={onChange}/>
+                <TextInput fieldName={'mass'} value={value?.mass} handleOnChange={onChange}/>
+                <TextInput fieldName={'skin_color'} value={value?.skin_color} handleOnChange={onChange}/>
+                <TextInput fieldName={'hair_color'} value={value?.hair_color} handleOnChange={onChange}/>
                 <TagInput
                           value={value?.homeworld}
                           fieldName={'homeworld'}
-                          handleOnChange={handleOnChange}
+                          handleOnChange={onChange}
                           handleOnInputChange={(text: string) => {
                               getTags('planets', 1, text, setHomeworldOptions)
                           }}
@@ -60,7 +53,7 @@ const PeopleForm: React.FC<FormProps<CreatePeopleDto>> = ({onSave, value}) => {
                     }}
                     options={filmsOptions}
                     fieldName={'films'}
-                    handleOnChange={handleOnChange}
+                    handleOnChange={onChange}
                 />
 
                 <TagInput
@@ -71,7 +64,7 @@ const PeopleForm: React.FC<FormProps<CreatePeopleDto>> = ({onSave, value}) => {
                     }}
                     options={speciesOptions}
                     fieldName={'species'}
-                    handleOnChange={handleOnChange}
+                    handleOnChange={onChange}
                 />
 
                 <TagInput
@@ -82,7 +75,7 @@ const PeopleForm: React.FC<FormProps<CreatePeopleDto>> = ({onSave, value}) => {
                     value={value?.vehicles}
                     options={vehiclesOptions}
                     fieldName={'vehicles'}
-                    handleOnChange={handleOnChange}
+                    handleOnChange={onChange}
                 />
 
                 <TagInput
@@ -93,9 +86,9 @@ const PeopleForm: React.FC<FormProps<CreatePeopleDto>> = ({onSave, value}) => {
                     value={value?.starships}
                     options={starshipsOptions}
                     fieldName={'starships'}
-                    handleOnChange={handleOnChange}
+                    handleOnChange={onChange}
                 />
-                <ImageInput fieldName={'images'} handleOnChange={handleOnChange}/>
+                <ImageInput fieldName={'images'} handleOnChange={onChange}/>
             </form>
             <FormsControls onCreate={handleOnSave} onReset={() => {setFormData(new FormData())}}/>
         </>
