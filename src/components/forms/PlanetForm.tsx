@@ -7,19 +7,15 @@ import TagInput from '../inputs/TagInput';
 import {getTags} from '../../services/api.service';
 import ImageInput from '../inputs/ImageInput';
 import FormsControls from './FormsControls';
+import {handleOnChange} from './Forms';
 
 const PlanetForm: React.FC<FormProps<CreatePlanetDto>> = ({onSave, value}) => {
     const [formData, setFormData] = React.useState<FormData>(new FormData());
     const [filmsOptions, setFilmsOptions] = React.useState<OptionsOrGroups<Tag, GroupBase<Tag>>>([]);
     const [peopleOptions, setPeopleOptions] = React.useState<OptionsOrGroups<Tag, GroupBase<Tag>>>([]);
-    const handleOnChange = (fieldName: string, value: string | string[] | File[]) => {
-        if (Array.isArray(value)) {
-            value.forEach((item) => {
-                formData.append(fieldName, item);
-            })
-        } else {
-            formData.set(fieldName, value);
-        }
+
+    const onChange = ( fieldName: string, value: string | string[] | File[])=>{
+        handleOnChange(formData, fieldName, value);
     }
 
 
@@ -31,23 +27,23 @@ const PlanetForm: React.FC<FormProps<CreatePlanetDto>> = ({onSave, value}) => {
     return (
         <>
             <form id="create-record-form">
-                <TextInput value={value?.name} fieldName={'name'} handleOnChange={handleOnChange}/>
+                <TextInput value={value?.name} fieldName={'name'} handleOnChange={onChange}/>
                 <TextInput key={'rotation_period'} value={value?.rotation_period} fieldName={'rotation_period'}
-                           handleOnChange={handleOnChange}/>
+                           handleOnChange={onChange}/>
                 <TextInput value={value?.orbital_period} fieldName={'orbital_period'}
-                           handleOnChange={handleOnChange}/>
+                           handleOnChange={onChange}/>
                 <TextInput value={value?.diameter} fieldName={'diameter'}
-                           handleOnChange={handleOnChange}/>
+                           handleOnChange={onChange}/>
                 <TextInput value={value?.climate} fieldName={'climate'}
-                           handleOnChange={handleOnChange}/>
+                           handleOnChange={onChange}/>
                 <TextInput value={value?.gravity} fieldName={'gravity'}
-                           handleOnChange={handleOnChange}/>
+                           handleOnChange={onChange}/>
                 <TextInput value={value?.terrain} fieldName={'terrain'}
-                           handleOnChange={handleOnChange}/>
+                           handleOnChange={onChange}/>
                 <TextInput value={value?.surface_water} fieldName={'surface_water'}
-                           handleOnChange={handleOnChange}/>
+                           handleOnChange={onChange}/>
                 <TextInput value={value?.population} fieldName={'population'}
-                           handleOnChange={handleOnChange}/>
+                           handleOnChange={onChange}/>
                 <TagInput
                     value={value?.residents}
                     isMulti
@@ -56,7 +52,7 @@ const PlanetForm: React.FC<FormProps<CreatePlanetDto>> = ({onSave, value}) => {
                     }}
                     options={peopleOptions}
                     fieldName={'residents'}
-                    handleOnChange={handleOnChange}
+                    handleOnChange={onChange}
                 />
                 <TagInput
                     value={value?.films}
@@ -66,9 +62,9 @@ const PlanetForm: React.FC<FormProps<CreatePlanetDto>> = ({onSave, value}) => {
                     }}
                     options={filmsOptions}
                     fieldName={'films'}
-                    handleOnChange={handleOnChange}
+                    handleOnChange={onChange}
                 />
-                <ImageInput fieldName={'images'} handleOnChange={handleOnChange}/>
+                <ImageInput fieldName={'images'} handleOnChange={onChange}/>
             </form>
             <FormsControls onCreate={handleCreate} onReset={() => console.log('reset')}/>
         </>

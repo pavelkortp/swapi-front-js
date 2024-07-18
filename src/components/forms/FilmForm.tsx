@@ -8,6 +8,7 @@ import TagInput from '../inputs/TagInput';
 import {getTags} from '../../services/api.service';
 import ImageInput from '../inputs/ImageInput';
 import FormsControls from './FormsControls';
+import {handleOnChange} from './Forms';
 
 const FilmForm:React.FC<FormProps<CreateFilmDto>> = ({onSave, value})=>{
     const [formData, setFormData] = React.useState<FormData>(new FormData());
@@ -21,25 +22,19 @@ const FilmForm:React.FC<FormProps<CreateFilmDto>> = ({onSave, value})=>{
         onSave(formData);
     }
 
-    const handleOnChange = (fieldName: string, value: string | string[] | File[]) => {
-        if (Array.isArray(value)) {
-            value.forEach((item) => {
-                formData.append(fieldName, item);
-            })
-        } else {
-            formData.set(fieldName, value);
-        }
+    const onChange = ( fieldName: string, value: string | string[] | File[])=>{
+        handleOnChange(formData, fieldName, value);
     }
 
     return (
         <>
             <form id="create-record-form">
-                <TextInput value={value?.title} fieldName={'title'} handleOnChange={handleOnChange}/>
-                <TextInput value={value?.episode_id} fieldName={'episode_id'} handleOnChange={handleOnChange}/>
-                <TextInput value={value?.opening_crawl} fieldName={'opening_crawl'} handleOnChange={handleOnChange}/>
-                <TextInput value={value?.director} fieldName={'director'} handleOnChange={handleOnChange}/>
-                <TextInput value={value?.producer} fieldName={'producer'} handleOnChange={handleOnChange}/>
-                <DateInput value={value?.release_date} fieldName={'release_date'} handleOnChange={handleOnChange}/>
+                <TextInput value={value?.title} fieldName={'title'} handleOnChange={onChange}/>
+                <TextInput value={value?.episode_id} fieldName={'episode_id'} handleOnChange={onChange}/>
+                <TextInput value={value?.opening_crawl} fieldName={'opening_crawl'} handleOnChange={onChange}/>
+                <TextInput value={value?.director} fieldName={'director'} handleOnChange={onChange}/>
+                <TextInput value={value?.producer} fieldName={'producer'} handleOnChange={onChange}/>
+                <DateInput value={value?.release_date} fieldName={'release_date'} handleOnChange={onChange}/>
                 <TagInput
                     isMulti
                     value={value?.characters}
@@ -48,7 +43,7 @@ const FilmForm:React.FC<FormProps<CreateFilmDto>> = ({onSave, value})=>{
                     }}
                     options={peopleOptions}
                     fieldName={'characters'}
-                    handleOnChange={handleOnChange}
+                    handleOnChange={onChange}
                 />
                 <TagInput
                     isMulti
@@ -58,7 +53,7 @@ const FilmForm:React.FC<FormProps<CreateFilmDto>> = ({onSave, value})=>{
                     }}
                     options={planetsOptions}
                     fieldName={'planets'}
-                    handleOnChange={handleOnChange}
+                    handleOnChange={onChange}
                 />
                 <TagInput
                     value={value?.starships}
@@ -68,7 +63,7 @@ const FilmForm:React.FC<FormProps<CreateFilmDto>> = ({onSave, value})=>{
                     }}
                     options={starshipsOptions}
                     fieldName={'starships'}
-                    handleOnChange={handleOnChange}
+                    handleOnChange={onChange}
                 />
 
                 <TagInput
@@ -79,7 +74,7 @@ const FilmForm:React.FC<FormProps<CreateFilmDto>> = ({onSave, value})=>{
                     }}
                     options={vehiclesOptions}
                     fieldName={'vehicles'}
-                    handleOnChange={handleOnChange}
+                    handleOnChange={onChange}
                 />
 
                 <TagInput
@@ -90,10 +85,10 @@ const FilmForm:React.FC<FormProps<CreateFilmDto>> = ({onSave, value})=>{
                     }}
                     options={speciesOptions}
                     fieldName={'species'}
-                    handleOnChange={handleOnChange}
+                    handleOnChange={onChange}
                 />
 
-                <ImageInput key={'images'} fieldName={'images'} handleOnChange={handleOnChange}/>
+                <ImageInput key={'images'} fieldName={'images'} handleOnChange={onChange}/>
             </form>
             <FormsControls onCreate={handleOnSave} onReset={() => console.log('reset')}/>
         </>

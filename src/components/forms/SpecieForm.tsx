@@ -7,6 +7,7 @@ import TagInput from '../inputs/TagInput';
 import {getTags} from '../../services/api.service';
 import ImageInput from '../inputs/ImageInput';
 import FormsControls from './FormsControls';
+import {handleOnChange} from './Forms';
 
 const SpecieForm: React.FC<FormProps<CreateSpecieDto>> = ({onSave, value})=>{
     const [formData, setFormData] = React.useState<FormData>(new FormData());
@@ -15,14 +16,8 @@ const SpecieForm: React.FC<FormProps<CreateSpecieDto>> = ({onSave, value})=>{
     const [filmsOptions, setFilmsOptions] = React.useState<OptionsOrGroups<Tag, GroupBase<Tag>>>([]);
 
 
-    const handleOnChange = (fieldName: string, value: string | string[] | File[]) => {
-        if (Array.isArray(value)) {
-            value.forEach((item) => {
-                formData.append(fieldName, item);
-            })
-        } else {
-            formData.set(fieldName, value);
-        }
+    const onChange = ( fieldName: string, value: string | string[] | File[])=>{
+        handleOnChange(formData, fieldName, value);
     }
 
 
@@ -34,19 +29,19 @@ const SpecieForm: React.FC<FormProps<CreateSpecieDto>> = ({onSave, value})=>{
     return (
         <>
             <form id="create-record-form">
-                <TextInput value={value?.name} fieldName={'name'} handleOnChange={handleOnChange}/>
-                <TextInput value={value?.classification} fieldName={'classification'} handleOnChange={handleOnChange}/>
-                <TextInput value={value?.designation} fieldName={'designation'} handleOnChange={handleOnChange}/>
-                <TextInput value={value?.average_height} fieldName={'average_height'} handleOnChange={handleOnChange}/>
-                <TextInput value={value?.skin_colors} fieldName={'skin_colors'} handleOnChange={handleOnChange}/>
-                <TextInput value={value?.hair_colors} fieldName={'hair_colors'} handleOnChange={handleOnChange}/>
-                <TextInput value={value?.eye_colors} fieldName={'eye_colors'} handleOnChange={handleOnChange}/>
-                <TextInput value={value?.average_lifespan} fieldName={'average_lifespan'} handleOnChange={handleOnChange}/>
-                <TextInput value={value?.language} fieldName={'language'} handleOnChange={handleOnChange}/>
+                <TextInput value={value?.name} fieldName={'name'} handleOnChange={onChange}/>
+                <TextInput value={value?.classification} fieldName={'classification'} handleOnChange={onChange}/>
+                <TextInput value={value?.designation} fieldName={'designation'} handleOnChange={onChange}/>
+                <TextInput value={value?.average_height} fieldName={'average_height'} handleOnChange={onChange}/>
+                <TextInput value={value?.skin_colors} fieldName={'skin_colors'} handleOnChange={onChange}/>
+                <TextInput value={value?.hair_colors} fieldName={'hair_colors'} handleOnChange={onChange}/>
+                <TextInput value={value?.eye_colors} fieldName={'eye_colors'} handleOnChange={onChange}/>
+                <TextInput value={value?.average_lifespan} fieldName={'average_lifespan'} handleOnChange={onChange}/>
+                <TextInput value={value?.language} fieldName={'language'} handleOnChange={onChange}/>
                 <TagInput
                           fieldName={'homeworld'}
                           value={value?.homeworld}
-                          handleOnChange={handleOnChange}
+                          handleOnChange={onChange}
                           handleOnInputChange={(text: string) => {
                               getTags('planets', 1, text, setHomeworldOptions)
                           }}
@@ -60,7 +55,7 @@ const SpecieForm: React.FC<FormProps<CreateSpecieDto>> = ({onSave, value})=>{
                     }}
                     options={peopleOptions}
                     fieldName={'people'}
-                    handleOnChange={handleOnChange}
+                    handleOnChange={onChange}
                 />
 
                 <TagInput
@@ -71,10 +66,10 @@ const SpecieForm: React.FC<FormProps<CreateSpecieDto>> = ({onSave, value})=>{
                     }}
                     options={filmsOptions}
                     fieldName={'films'}
-                    handleOnChange={handleOnChange}
+                    handleOnChange={onChange}
                 />
 
-                <ImageInput fieldName={'images'} handleOnChange={handleOnChange}/>
+                <ImageInput fieldName={'images'} handleOnChange={onChange}/>
             </form>
             <FormsControls onCreate={handleCreate} onReset={() => console.log('reset')}/>
         </>
