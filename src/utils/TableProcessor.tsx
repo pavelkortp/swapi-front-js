@@ -1,6 +1,6 @@
 import React from 'react';
 import {Entities} from '../interfaces/Entities';
-import {EntityRowState} from '../components/EntityRow';
+import {EntityRowState} from '../components/table/EntityRow';
 import {BASE_URL} from '../services/api.service';
 import {BaseEntity} from '../models/BaseEntity';
 

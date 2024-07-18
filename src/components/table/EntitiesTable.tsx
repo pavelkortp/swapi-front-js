@@ -1,9 +1,9 @@
 import React from 'react';
 import EntityRow from './EntityRow';
-import '../styles/entityTable.css'
-import {TableProcessor} from '../utils/TableProcessor';
-import {EntityType} from '../interfaces/EntityType';
-import {BaseEntity} from '../models/BaseEntity';
+import '../../styles/entityTable.css'
+import {TableProcessor} from '../../utils/TableProcessor';
+import {EntityType} from '../../interfaces/EntityType';
+import {BaseEntity} from '../../models/BaseEntity';
 
 export const ITEMS_PER_PAGE = 10;
 

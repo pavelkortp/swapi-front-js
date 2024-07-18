@@ -1,7 +1,7 @@
 import React, {ClassType, useEffect, useState} from 'react';
-import EntitiesTable from './EntitiesTable';
+import EntitiesTable from './table/EntitiesTable';
 import { createEntity, deleteEntity, getEntitiesPage, TOAST_OPTIONS, updateEntity } from '../services/api.service';
-import PagesBar from './PagesBar';
+import PagesBar from './table/PagesBar';
 import CreateEntity from './CreateEntity';
 import { toast } from 'react-toastify';
 import UpdateEntity from './UpdateEntity';

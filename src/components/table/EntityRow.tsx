@@ -1,9 +1,9 @@
 import React, {ReactNode, useEffect, useState} from 'react';
 import {RiDeleteBin6Fill} from 'react-icons/ri';
 import {MdEdit} from 'react-icons/md';
-import {EntityParser} from '../utils/EntityParser';
-import {TableProcessor} from '../utils/TableProcessor';
-import {BaseEntity} from '../models/BaseEntity';
+import {EntityParser} from '../../utils/EntityParser';
+import {TableProcessor} from '../../utils/TableProcessor';
+import {BaseEntity} from '../../models/BaseEntity';
 
 
 interface EntityRowProps {
