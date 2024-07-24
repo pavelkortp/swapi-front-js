@@ -19,16 +19,20 @@ export const FORMS: { [key in EntityType]: FC<FormProps> } = {
 //TODO fix when trying update or create homeworld
 export const handleOnChange = (fm: FormData, fieldName: string, value: string | string[] | File[]) => {
     if (Array.isArray(value)) {
-        value.forEach((item) => {
-            /* Bad idea but works if we need to send an array with id of one entity,
-             * we send arr with 2 equals id, because formdata creates arr(which server expect)
-             * from 2 values by one key.
-             */
-            if (typeof item === 'string') {
+        if (value.length<1){
+            fm.delete(fieldName);
+        }else {
+            value.forEach((item) => {
+                /* Bad idea but works if we need to send an array with id of one entity,
+                 * we send arr with 2 equals id, because formdata creates arr(which server expect)
+                 * from 2 values by one key.
+                 */
+                if (typeof item === 'string' && fieldName !== 'homeworld') {
+                    fm.append(fieldName, item);
+                }
                 fm.append(fieldName, item);
-            }
-            fm.append(fieldName, item);
-        })
+            })
+        }
     } else {
         fm.set(fieldName, value);
     }
